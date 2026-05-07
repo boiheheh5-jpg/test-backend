@@ -112,7 +112,7 @@ app.post('/login', requireDeviceSession, (req, res) => {
       username: 'Player' + Math.floor(Math.random() * 9999),
       externalID,
       platform,
-      credits: 500,
+      credits: 18154,
       skinPacks: 0,
       skins: [],
       stats: { kills: 0, deaths: 0, wins: 0, gamesPlayed: 0 },
