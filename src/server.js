@@ -109,7 +109,15 @@ app.post('/app/start', startHandler);
 app.post('/app/start/', startHandler);
 app.post('/start', startHandler);
 app.post('/StartRequest', startHandler);
+app.post('/app/log', (req, res) => {
+  console.log('[UNITY LOG]', req.body);
+  res.json({ ok: true });
+});
 
+app.post('/log', (req, res) => {
+  console.log('[LOG]', req.body);
+  res.json({ ok: true });
+});
 /* =========================
    LOGIN
 ========================= */
