@@ -1,0 +1,23 @@
+ManifestFileVersion: 0
+CRC: 272969737
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 7e39ec96bd980d09068aae5aead498e1
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 4715f15a6cafbf02b49bf10d34f8c60a
+HashAppended: 0
+ClassTypes:
+- Class: 114
+  Script: {fileID: 11500000, guid: fab31ecddf93d1562de1fbc0fff017c2, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+Assets:
+- Assets/gamedata/bundleresources/languages/fonts/Chinese.asset
+- Assets/gamedata/bundleresources/languages/fonts/Korean.asset
+- Assets/gamedata/bundleresources/languages/fonts/English.asset
+Dependencies:
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/ui_fonts

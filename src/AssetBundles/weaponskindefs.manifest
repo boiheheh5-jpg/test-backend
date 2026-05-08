@@ -1,0 +1,380 @@
+ManifestFileVersion: 0
+CRC: 2568352449
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 0cd99ff2198a7ad24c51997a04e80e64
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 4a7625ed2834f3b4062f71f12c0494b8
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 111
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: b6eee8b04b30bcf5f4749996dc2f8612, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 46ba3321e2d56d5fdb3ccf6f9aa7e119, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ca197d5179e9e8f8dc2939fa2284f061, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3b9b7d94a6409574533499fd7f1dc7bf, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 1b9643d4e65e4276b53b04358a7e8c57, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 711f79cc72f12e57e791dc1b30bb923c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ed91182e455bcba70b25d47ca895463f, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+- Class: 205
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/gamedata/bundleresources/settings/weaponskindefs/URatio-Conifer.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MTX-Hound.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P250-Peacock.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/XD45-Slaughter.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/GSR1911-KindRegards.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-Polar.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/FP6-Jungle.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M4-Sandstorm.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP7-Shatter.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Aug-Turquoise.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P90-Maelstrom.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M4-Arctic.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/URatio-Victorian.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MR96-Wasteland.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-Lotus.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MR96-Crusader.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/XD45-Sky.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P90-Ash.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P90-Thunderclap.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-Koi.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-DangerZone.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P250-Ash.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP7-Woodland.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-HotRod.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/FP6-Catacomb.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SA58-ArrowHead.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M4-Leopard.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MR96-Woodland.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-Arrowhead.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/URatio-Metro.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Super90-Frostberg.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MTX-Sky.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MR96-Splattered.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SA58-Jawbreaker.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-UrbanDigicamo.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MTX-Maple.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MTX-Purgatory.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/XD45-MeteorSwarm.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/FP6-UrbanDigicamo.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/FP6-Powershot.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/XD45-Lotus.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP7-Carmine.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SA58-Nurture.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/GSR1911-Swampland.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SA58-Locust.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/FP6-CriticalBlocks.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/GSR1911-Olive.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-Huntsman.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Uratio-Maple.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Remix-HotRod.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/HK417-Masquerade.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Super90-Arrowhead.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-Sky.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-Antique.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-Olive.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-BasicWhite.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MR96-Floral.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P90-Woodland.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-Abduction.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Remix-Porcelain.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/HK417-Taiga.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-Sunset.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-FKYA.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P250-BloodMoney.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-Carmine.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AUG-Arctic.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP7-Maple.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SG551-Lotus.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/HK417-Carmine.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/URatio-RedStar.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/GSR1911-Maple.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-Scion.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MTX-Arctic.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M4-Molten.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Super90-Woodland.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/XD45-Masquerade.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP7-BoxCutter.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-Sandstorm.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP7-OpposingForces.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/HK417-Maple.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-Jungle.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-Conifer.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-AutumnCrystal.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SA58-KissNTell.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Knife-Twisted.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P90-Olive.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MTX-DangerZone.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MR96-Construct.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-BasicWhite.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M4-Ash.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP7-Havoc.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P90-Zebra.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Kabar-Scythe.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AUG-Ash.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MTX-Retaliator.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Remix-Predator.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MR96-Sky.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P250-Lotus.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MR96-Sunglow.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AUG-Lotus.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-Biotic.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/HK417-Hound.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P250-Olive.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-Duotone.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-Scavenged.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-Sky.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M4-Maori.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/GSR1911-Carmine.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/HK417-Cal.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SA58-Lotus.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P90-Cardboard.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/XD45-Maple.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-Lotus.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Uratio-SuperSplasher.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP7-NovaAlpha.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SG551-Maple.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AUG-HotPink.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-Taiga.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AUG-Conifer.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Kukri-Aviary.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MR96-OpposingForces.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/FP6-Sunset.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P250-Sunglow.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP7-Arctic.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-Arrowhead.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-Synth.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-Dandelion.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Knife-Carbon.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-Lotus.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/GSR1911-Pinstripe.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SA58-Predator.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P90-Maple.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SA58-AutumnCrystal.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M4-Valhalla.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M4-CriticalFashion.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Uratio-Hound.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P250-Phoenix.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SA58-Conifer.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MTX-Highland.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/URatio-Lotus.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/HK417-HotRod.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Super90-Badland.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-Havoc.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MR96-Ivory.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/XD45-Olive.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-Wasteland.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Kabar-Catacomb.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-Arctic.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-Eclipse.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/XD45-Laughter.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/HK417-OniDemon.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/FP6-DangerZone.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/HK417-NeonSwirl.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP7-Lotus.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/GSR1911-Lotus.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AUG-BoxCutter.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/FP6-Maple.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/XD45-OpposingForces.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AUG-NineLives.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P90-Arctic.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SG551-Winky.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-BasicWhite.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Super90-Olive.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/GSR1911-Spooky.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/XD45-Inked.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Remix-Default.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AUG-Sandstorm.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-Patton.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SG551-NightLight.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MR96-Olive.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-Ivory.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MR96-Black.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M4-NeonSwirl.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-Kraken.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/FP6-Carmine.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-Kraken.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M4-Sky.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M4-Lotus.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Super90-HotPink.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MR96-NightLight.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/GSR1911-Predator.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-Woodland.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Super90-Coil.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P250-Arctic.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/FP6-KindRegards.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M4-SuperHexagon.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MTX-Lotus.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P90-Vice.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SG551-AngryHands.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-Trex.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-CriticalBlocks.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/URatio-AngryHands.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP7-Olive.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/HK417-Nurture.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-SugarRush.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MR96-UrbanDigicamo.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Kukri-Polycult.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/GSR1911-Dreamcatcher.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/HK417-Worms.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-Catacomb.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/HK417-Olive.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-Cubicatious.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/URatio-FKYA.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AUG-Maple.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P250-Starstruck.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SG551-Carmine.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M4-AutumnCrystal.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/GSR1911-Catacomb.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-Predator.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Uratio-Black.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MR96-Arctic.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-Classic.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M4-Nightmare.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P90-Circuitry.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-Maple.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SA58-Olive.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SG551-Arctic.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/HK417-Sunglow.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P250-AllTerrainDigi.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/FP6-Ash.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/URatio-Taiga.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SG551-Sky.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P250-DangerZone.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-Dahlia.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/HK417-AutumnCrystal.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Aug-Floral.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Super90-Terraflare.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MTX-Arrowhead.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP7-Conifer.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/GSR1911-Duotone.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SA58-Arctic.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/XD45-Highland.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/FP6-Ivory.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M4-Aquamarine.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Aug-Impact.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SA58-Havoc.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MTX-Pinstripe.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SG551-Herald.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Super90-FKYA.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/G36K-Dev.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M4-Hound.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Knife-Shatter.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Super90-Synth.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/HK417-Woodland.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Super90-AngryHands.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/GSR1911-Conifer.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/FP6-Survival.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P250-Harvest.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Super90-Carmine.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SG551-Conifer.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Uratio-Rekt.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Super90-Duotone.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AUG-Butterfly.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/HK417-Sandstorm.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/FP6-Cyan.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/HK417-Lotus.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MR96-Lotus.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-FeverDream.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/HK417-Locust.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SA58-Maple.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SA58-Sandstorm.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP7-Honeycomb.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AUG-Safari.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P90-Metro.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/GSR1911-Seismic.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P90-Coil.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MTX-Shatter.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/FP6-Winky.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MTX-Carmine.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-Tribal.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Kabar-Tigris.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-Arctic.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/FP6-Arctic.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/XD45-LaMuerte.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P90-Predator.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP7-Victorian.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Mp5-Leopard.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MR96-PlasticWarfare.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-Crayons.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M4-Maple.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/URatio-Arctic.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/FP6-Woodland.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SA58-Metro.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-Serpent.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P250-Maple.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SA58-NovaGamma.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-HotRod.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-Maple.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/FP6-Lotus.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/URatio-Sunglow.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/XD45-FeverDream.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Kukri-Glow.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MR96-Maple.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SG551-Rekt.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Aug-Comic.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/GSR1911-Antique.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/GSR1911-Arctic.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P250-SugarRush.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/XD45-Black.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-NovaBeta.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/AK47-Sky.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/XD45-Arctic.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-Velocity.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SG551-Taiga.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MR96-Cal.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Uratio-Jungle.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Kabar-Default.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-Cottony.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/URatio-Ash.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Super90-Maple.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/M14-Dots.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/URatio-Aquamarine.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Super90-Lotus.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/XD45-Arrowhead.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/Kukri-Default.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/GSR1911-Circuitry.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/XD45-HotPink.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP7-Taiga.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/SA58-Carmine.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-Coil.asset
+- Assets/gamedata/bundleresources/settings/weaponskindefs/P90-Lotus.asset
+Dependencies:
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/shaders
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/weapondefs
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/characteranimationsets
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_weaponicons
