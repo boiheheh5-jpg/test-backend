@@ -1,0 +1,37 @@
+ManifestFileVersion: 0
+CRC: 3894332368
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: f3e6846ad9341bed223ba3d9d4b331bf
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1f8330d95ef24fa9ac2e35fd9c8aeb0d
+HashAppended: 0
+ClassTypes:
+- Class: 114
+  Script: {fileID: 11500000, guid: 8563d32831a4a2d07476f01348442b58, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 241
+  Script: {instanceID: 0}
+- Class: 243
+  Script: {instanceID: 0}
+- Class: 245
+  Script: {instanceID: 0}
+Assets:
+- Assets/gamedata/bundleresources/audioevents/radio/counter terrorist/CT_ThrowingSmoke.asset
+- Assets/gamedata/bundleresources/audioevents/radio/terrorist/T_PlantingBomb.asset
+- Assets/gamedata/bundleresources/audioevents/radio/counter terrorist/CT_BombAtB.asset
+- Assets/gamedata/bundleresources/audioevents/radio/counter terrorist/CT_DefusingBomb.asset
+- Assets/gamedata/bundleresources/audioevents/radio/announcer/Announcer_TWin.asset
+- Assets/gamedata/bundleresources/audioevents/radio/counter terrorist/CT_ThrowingFlash.asset
+- Assets/gamedata/bundleresources/audioevents/radio/terrorist/T_ThrowingSmoke.asset
+- Assets/gamedata/bundleresources/audioevents/radio/counter terrorist/CT_ThrowingFrag.asset
+- Assets/gamedata/bundleresources/audioevents/radio/terrorist/T_ThrowingFrag.asset
+- Assets/gamedata/bundleresources/audioevents/radio/terrorist/T_ThrowingFlash.asset
+- Assets/gamedata/bundleresources/audioevents/radio/announcer/Announcer_BombPlanted.asset
+- Assets/gamedata/bundleresources/audioevents/radio/announcer/Announcer_CTWin.asset
+- Assets/gamedata/bundleresources/audioevents/radio/announcer/Announcer_BombDefused.asset
+- Assets/gamedata/bundleresources/audioevents/radio/counter terrorist/CT_BombAtA.asset
+Dependencies: []

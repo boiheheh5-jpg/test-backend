@@ -1,0 +1,111 @@
+ManifestFileVersion: 0
+CRC: 2336745886
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: ba65fb02e12b080fe17829ef551a8491
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 7e4e8e34933d29ccb82ea85fda18fef5
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 111
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9087b001666f79ba0d0536e71d3246fd, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 8ca6ba91276c89caf5328c2d542ccda4, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 889a84e137eb6b280d6b11554c9e1c71, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 35985ee1ad46b21b566ee32cf66a7865, type: 3}
+- Class: 114
+  Script: {fileID: 1392445389, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: 1980459831, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: 1741964061, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: 1301386320, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: -405508275, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: 1679637790, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: -146154839, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: -2061169968, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: 1367256648, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: 1297475563, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3746c653e3754e269140265803fee129, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5e44e985856437e60d27f1d95bc26e3d, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 621e8ac54b6540d906130a31cbd68934, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 353a64f58e978077922352142d402531, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3f457596cb35ab54a59697e3b2d72a19, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: a0fb0cc66568640446cccd93704ec609, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 48630057e2425e56b09878dadc3b3f4e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: e69f01a87d61913721204654ea06507b, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 217e3219b02bd0931055f2b5c57a1ae6, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 57867959f39830d908b0d8e81fa89763, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 10b6a7d93f6b64a4b8c65532a5554ef3, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: af4d705a2854882d0e6e36d2570e7776, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 16355d7a1a6d2f1bc2f4b723d447efab, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 1ff14fab2651835bdfc258d9e989dc87, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 8ba95fdcd4d2d2154fe49ce18569df74, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2289b15d211b12ecc44fb75c1e1bcd8d, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 873fe3cd935f37e248c45bf7ad15c3a3, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4ca336eec9d0be1a78ba9a6bf6d5dee4, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 03650f6f6f41a1416dcc9b0b213e2975, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 223
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+- Class: 225
+  Script: {instanceID: 0}
+Assets:
+- Assets/gamedata/bundleresources/settings/GunGameGameModeSettings.asset
+Dependencies:
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_menu
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/ui_fonts
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_hud

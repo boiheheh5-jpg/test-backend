@@ -1,0 +1,25 @@
+ManifestFileVersion: 0
+CRC: 914682599
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: c0cca266d34171ac600b0b5656f00c85
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/gamedata/resources/localization/english.xml
+- Assets/gamedata/resources/localization/spanish_us.xml
+- Assets/gamedata/resources/localization/french.xml
+- Assets/gamedata/resources/localization/korean.xml
+- Assets/gamedata/resources/localization/polish.xml
+- Assets/gamedata/resources/localization/spanish.xml
+- Assets/gamedata/resources/localization/portuguese.xml
+- Assets/gamedata/resources/localization/german.xml
+- Assets/gamedata/resources/localization/turkish.xml
+- Assets/gamedata/resources/localization/russian.xml
+Dependencies: []

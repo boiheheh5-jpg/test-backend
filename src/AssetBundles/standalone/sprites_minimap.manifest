@@ -1,0 +1,25 @@
+ManifestFileVersion: 0
+CRC: 3461897734
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 28ca9c9d685841b1da09b44240b4c9be
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 460b4f5d62b6facbccf7c01637df8f00
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/gamedata/graphics/ui/minimap/minimapArrow.asset
+- Assets/gamedata/graphics/ui/minimap/minimapB.asset
+- Assets/gamedata/graphics/ui/minimap/minimapDead.asset
+- Assets/gamedata/graphics/ui/minimap/minimapSoundsight.asset
+- Assets/gamedata/graphics/ui/minimap/minimapOther.asset
+- Assets/gamedata/graphics/ui/minimap/minimapBomb.asset
+- Assets/gamedata/graphics/ui/minimap/minimapA.asset
+- Assets/gamedata/graphics/ui/minimap/minimapSelf.asset
+Dependencies: []

@@ -1,0 +1,56 @@
+ManifestFileVersion: 0
+CRC: 3440377911
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 5b76856f0d29a2bcf6431f8dd703fe81
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: a8e56f94bffa3ae769155f22275174dc
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4554688ed28423c84c4af39d807ae67f, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+Assets:
+- Assets/gamedata/bundleresources/settings/particledefs/BulletImpact_Rubber.asset
+- Assets/gamedata/bundleresources/settings/particledefs/BulletImpact_Flesh.asset
+- Assets/gamedata/bundleresources/settings/particledefs/Shell_Rifle_ThirdPerson.asset
+- Assets/gamedata/bundleresources/settings/particledefs/BulletImpact_Concrete.asset
+- Assets/gamedata/bundleresources/settings/particledefs/Shell_9mm_ThirdPerson.asset
+- Assets/gamedata/bundleresources/settings/particledefs/BulletImpact_Wood.asset
+- Assets/gamedata/bundleresources/settings/particledefs/BulletImpact_Metal.asset
+- Assets/gamedata/bundleresources/settings/particledefs/MuzzleFlash_Suppressed.asset
+- Assets/gamedata/bundleresources/settings/particledefs/BulletImpact_Asphalt.asset
+- Assets/gamedata/bundleresources/settings/particledefs/Shell_Rifle_FirstPerson.asset
+- Assets/gamedata/bundleresources/settings/particledefs/Shell_9mm_FirstPerson.asset
+- Assets/gamedata/bundleresources/settings/particledefs/BulletImpact_Cloth.asset
+- Assets/gamedata/bundleresources/settings/particledefs/Blood_Spurt.asset
+- Assets/gamedata/bundleresources/settings/particledefs/BulletImpact_Glass.asset
+- Assets/gamedata/bundleresources/settings/particledefs/BulletImpact_Grass.asset
+- Assets/gamedata/bundleresources/settings/particledefs/MuzzleFlash.asset
+- Assets/gamedata/bundleresources/settings/particledefs/Shell_Shotgun_FirstPerson.asset
+- Assets/gamedata/bundleresources/settings/particledefs/BulletImpact_Plastic.asset
+- Assets/gamedata/bundleresources/settings/particledefs/BulletImpact_Cardboard.asset
+- Assets/gamedata/bundleresources/settings/particledefs/Blood_Explode.asset
+- Assets/gamedata/bundleresources/settings/particledefs/BulletImpact_Kevlar.asset
+- Assets/gamedata/bundleresources/settings/particledefs/Shell_Shotgun_ThirdPerson.asset
+Dependencies:
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/shaders
