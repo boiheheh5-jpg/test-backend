@@ -1,0 +1,47 @@
+ManifestFileVersion: 0
+CRC: 3129021634
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: a7129a926d6a6a0393adec4e45e72b8c
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 460b4f5d62b6facbccf7c01637df8f00
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/gamedata/graphics/ui/hud/teamIconT.asset
+- Assets/gamedata/graphics/ui/hud/headshot-1.asset
+- Assets/gamedata/graphics/ui/hud/leaveGame.asset
+- Assets/gamedata/graphics/ui/hud/teamIconCT.asset
+- Assets/gamedata/graphics/ui/hud/killfeedBlip.asset
+- Assets/gamedata/graphics/ui/hud/pause_icon.asset
+- Assets/gamedata/graphics/ui/hud/teammateArrow.asset
+- Assets/gamedata/graphics/ui/hud/medalHeadshot.asset
+- Assets/gamedata/graphics/ui/hud/FullCircle.asset
+- Assets/gamedata/graphics/ui/hud/teamSelect.asset
+- Assets/gamedata/graphics/ui/hud/notification.asset
+- Assets/gamedata/graphics/ui/hud/teamBlip.asset
+- Assets/gamedata/graphics/ui/hud/hitmarker.asset
+- Assets/gamedata/graphics/ui/hud/bombWarning.asset
+- Assets/gamedata/graphics/ui/hud/dmg_arrow.asset
+- Assets/gamedata/graphics/ui/hud/spectateMode.asset
+- Assets/gamedata/graphics/ui/hud/medalQuadkill.asset
+- Assets/gamedata/graphics/ui/hud/categorySnipers.asset
+- Assets/gamedata/graphics/ui/hud/skull.asset
+- Assets/gamedata/graphics/ui/hud/medalAssist.asset
+- Assets/gamedata/graphics/ui/hud/health.asset
+- Assets/gamedata/graphics/ui/hud/categoryRifles.asset
+- Assets/gamedata/graphics/ui/hud/categorySubs.asset
+- Assets/gamedata/graphics/ui/hud/armor.asset
+- Assets/gamedata/graphics/ui/hud/medalAce.asset
+- Assets/gamedata/graphics/ui/hud/categoryGear.asset
+- Assets/gamedata/graphics/ui/hud/categoryShotguns.asset
+- Assets/gamedata/graphics/ui/hud/medalDoublekill.asset
+- Assets/gamedata/graphics/ui/hud/categoryPistols.asset
+- Assets/gamedata/graphics/ui/hud/medalTriplekill.asset
+Dependencies: []

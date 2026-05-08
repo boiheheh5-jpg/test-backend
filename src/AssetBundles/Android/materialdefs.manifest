@@ -1,0 +1,50 @@
+ManifestFileVersion: 0
+CRC: 332999363
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 061c2ac1f00d347adc7a0b96361d1b8a
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 42e4cd04fdf268c9ce0c5899944ae257
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: b3a97502b893b4bd09e04f9b72f0807d, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 8563d32831a4a2d07476f01348442b58, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4554688ed28423c84c4af39d807ae67f, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 134
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 241
+  Script: {instanceID: 0}
+- Class: 243
+  Script: {instanceID: 0}
+- Class: 245
+  Script: {instanceID: 0}
+Assets:
+- Assets/gamedata/bundleresources/settings/materialdefs/Glass.asset
+- Assets/gamedata/bundleresources/settings/materialdefs/MetalImpenetrable.asset
+- Assets/gamedata/bundleresources/settings/materialdefs/WoodImpenetrable.asset
+- Assets/gamedata/bundleresources/settings/materialdefs/Asphalt.asset
+- Assets/gamedata/bundleresources/settings/materialdefs/GlassImpenetrable.asset
+- Assets/gamedata/bundleresources/settings/materialdefs/Cloth.asset
+- Assets/gamedata/bundleresources/settings/materialdefs/Plastic.asset
+- Assets/gamedata/bundleresources/settings/materialdefs/Cardboard.asset
+- Assets/gamedata/bundleresources/settings/materialdefs/Grass.asset
+- Assets/gamedata/bundleresources/settings/materialdefs/Concrete.asset
+- Assets/gamedata/bundleresources/settings/materialdefs/Wood.asset
+- Assets/gamedata/bundleresources/settings/materialdefs/Flesh.asset
+- Assets/gamedata/bundleresources/settings/materialdefs/ConcreteImpenetrable.asset
+- Assets/gamedata/bundleresources/settings/materialdefs/Metal.asset
+- Assets/gamedata/bundleresources/settings/materialdefs/Rubber.asset
+Dependencies:
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/physicsmaterialdefs
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/particledefs

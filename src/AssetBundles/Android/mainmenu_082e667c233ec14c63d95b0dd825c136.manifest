@@ -1,0 +1,38 @@
+ManifestFileVersion: 0
+CRC: 1936883698
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 2bacb2c508dbab55f99b9b88328d686a
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 360b607dcf4a1fdd75e933c452dad0ba
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 81
+  Script: {instanceID: 0}
+- Class: 89
+  Script: {instanceID: 0}
+- Class: 104
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 792f254f4c5063935ed6151913f10f7f, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 157
+  Script: {instanceID: 0}
+- Class: 220
+  Script: {instanceID: 0}
+- Class: 258
+  Script: {instanceID: 0}
+Assets:
+- Assets/GameData/BundleResources/MainMenu/MainMenu.unity
+Dependencies: []
