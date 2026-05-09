@@ -9,7 +9,6 @@ const PORT = process.env.PORT || 3000;
 const DATA_DIR = path.join(__dirname, 'data');
 const ASSET_DIR = path.join(__dirname, 'AssetBundles');
 
-// DÜZELTİLDİ - template literal düzgün kullanıldı
 const PUBLIC_BASE_URL = process.env.PUBLIC_BASE_URL || 
                        (process.env.RAILWAY_PUBLIC_DOMAIN ? 
                        `https://${process.env.RAILWAY_PUBLIC_DOMAIN}` : 
@@ -37,6 +36,9 @@ app.use(express.text({ type: '*/*', limit: '10mb' }));
 
 app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+    if (req.headers.authorization) {
+        console.log('[AUTH HEADER]', req.headers.authorization.substring(0, 50) + '...');
+    }
     if (req.body && Object.keys(req.body).length > 0) {
         console.log('[BODY]', JSON.stringify(req.body).substring(0, 300));
     }
@@ -84,15 +86,22 @@ function parseSessionToken(header) {
             deviceSessionID: parts[2] || null,
             deviceSessionToken: parts[3] || null
         };
-    } catch { return null; }
+    } catch (error) {
+        console.log('[PARSE ERROR]', error.message);
+        return null;
+    }
 }
 
 function requireDeviceSession(req, res, next) {
     const session = parseSessionToken(req.headers.authorization);
+    console.log('[REQUIRE DEVICE SESSION]', session);
+    
     if (!session || !session.deviceSessionToken) {
         return res.status(401).json({ error: 'INVALID_DEVICE_SESSION' });
     }
     const sessions = loadData('device_sessions.json', {});
+    console.log('[DEVICE SESSIONS]', Object.keys(sessions));
+    
     if (!sessions[session.deviceSessionToken]) {
         return res.status(401).json({ error: 'DEVICE_SESSION_NOT_FOUND' });
     }
@@ -110,14 +119,14 @@ function buildStartResponse(body) {
     deviceSessions[deviceSessionToken] = {
         udid: udid,
         deviceSessionID: deviceSessionID,
-        devicePlatform: body.platform || 'unknown',
+        devicePlatform: body.platform || body.devicePlatform || 'unknown',
         deviceModel: body.model || '',
         deviceOS: body.os || '',
         createdAt: Date.now()
     };
     saveData('device_sessions.json', deviceSessions);
 
-    return {
+    const response = {
         udid: udid,
         deviceSessionID: deviceSessionID,
         deviceSessionToken: deviceSessionToken,
@@ -132,15 +141,23 @@ function buildStartResponse(body) {
             assetVersion: "1"
         }
     };
+    
+    console.log('[START RESPONSE]', JSON.stringify(response).substring(0, 200));
+    return response;
 }
 
 function startHandler(req, res) {
     console.log('[START] Request received');
-    res.status(200).json(buildStartResponse(normalizeBody(req)));
+    const body = normalizeBody(req);
+    const response = buildStartResponse(body);
+    res.status(200).json(response);
 }
 
-// ============ LOGIN HANDLER - TAM UYUMLU ============
+// ============ LOGIN HANDLER - TAMAMEN DÜZELTİLDİ ============
 function loginHandler(req, res) {
+    console.log('[LOGIN] Request received');
+    console.log('[LOGIN] Device Info:', req.deviceInfo);
+    
     const body = normalizeBody(req);
     const externalID = body.externalID || body.ExternalID || (req.deviceInfo && req.deviceInfo.udid) || generateToken(16);
 
@@ -193,6 +210,10 @@ function loginHandler(req, res) {
     userSessions[userSessionToken] = { userID: user.userID, createdAt: Date.now() };
     saveData('user_sessions.json', userSessions);
 
+    // Authorization token oluştur
+    const authToken = Buffer.from(`${userSessionID}:${userSessionToken}:${req.deviceInfo.deviceSessionID}:${req.session.deviceSessionToken}`).toString('base64');
+
+    // ============ TAM VE EKSİKSİZ LOGIN RESPONSE ============
     const loginResponse = {
         accountFound: false,
         userSessionToken: userSessionToken,
@@ -282,6 +303,10 @@ function loginHandler(req, res) {
     };
 
     console.log('[LOGIN SUCCESS]', user.name, 'ID:', user.userID);
+    console.log('[AUTH TOKEN]', authToken.substring(0, 50) + '...');
+    
+    // Authorization header'ı da ekleyerek gönder
+    res.setHeader('Authorization', `Bearer ${authToken}`);
     res.status(200).json(loginResponse);
 }
 
@@ -292,6 +317,7 @@ function logHandler(req, res) {
 }
 
 function sendServerList(req, res) {
+    console.log('[SERVER LIST] Request received');
     const servers = [{
         Id: 'railway-1',
         Name: 'Railway Server',
@@ -306,7 +332,9 @@ function sendServerList(req, res) {
         MaxPlayerCount: 100,
         Ping: 0,
         Online: true,
-        Status: 'Online'
+        Status: 'Online',
+        GameMode: 'Deathmatch',
+        Map: 'Default'
     }];
     res.status(200).json(servers);
 }
@@ -345,45 +373,164 @@ function statsUpdateHandler(req, res) {
 }
 
 // ============ ENDPOINTS ============
+
+// Start - ÖNCE BUNU ÇAĞIR!
 app.all('/start', startHandler);
+app.all('/start/', startHandler);
 app.all('/StartRequest', startHandler);
+app.all('/StartRequest/', startHandler);
 app.all('/AppStartRequest', startHandler);
+app.all('/app/start', startHandler);
 app.all('/ServerRequests.StartRequest', startHandler);
+app.all('/ServerRequests/StartRequest', startHandler);
 app.all('*StartRequest*', startHandler);
+app.all('*start*', (req, res, next) => {
+    if (req.originalUrl.toLowerCase().includes('start')) {
+        startHandler(req, res);
+    } else {
+        next();
+    }
+});
 
+// Login (Start'dan SONRA çağırılmalı)
 app.all('/login', requireDeviceSession, loginHandler);
+app.all('/login/', requireDeviceSession, loginHandler);
 app.all('/Login', requireDeviceSession, loginHandler);
+app.all('/Login/', requireDeviceSession, loginHandler);
 
+// Log
 app.all('/log', logHandler);
+app.all('/log/', logHandler);
 app.all('/logmessage', logHandler);
 app.all('/LogMessageRequest', logHandler);
 app.all('*log*', logHandler);
 
+// Server List
 app.all('/server/list', sendServerList);
 app.all('/servers', sendServerList);
 app.all('/GetServersRequest', sendServerList);
+app.all('/ServerRequests/GetServersRequest', sendServerList);
 
+// Stats
 app.all('/stats/update', statsUpdateHandler);
 app.all('/stats', (req, res) => res.status(200).json({ success: true }));
+
+// Logout
 app.all('/logout', (req, res) => res.status(200).json({ success: true }));
+app.all('/user/logout', (req, res) => res.status(200).json({ success: true }));
+
+// Tutorial
 app.all('/tutorial/completed', (req, res) => res.status(200).json({ success: true }));
+app.all('/tutorial/status', (req, res) => res.status(200).json({ completed: false, stage: 0 }));
+
+// Credits
 app.all('/user/credits', (req, res) => res.status(200).json({ Credits: 10000 }));
-app.all('/skin/unpack', (req, res) => res.status(200).json({ success: true, skinID: 1001, packsLeft: 4, alreadyOwned: false }));
-app.all('/username/check', (req, res) => res.status(200).json({ username: req.body.username || "Player", available: true }));
-app.all('/health', (req, res) => res.status(200).json({ status: 'healthy' }));
+app.all('/credits', (req, res) => res.status(200).json({ credits: 10000 }));
 
+// Skins
+app.all('/skin/unpack', (req, res) => {
+    res.status(200).json({ 
+        success: true, 
+        skinID: 1001, 
+        packsLeft: 4,
+        alreadyOwned: false,
+        tokensGained: 0
+    });
+});
+app.all('/skinpack/purchase', (req, res) => {
+    res.status(200).json({ CurrentSkinPacks: 4, CurrentCredits: 9500 });
+});
+app.all('/skin/purchase', (req, res) => {
+    res.status(200).json({ success: true, TokensLeft: 90, SkinBought: 1001 });
+});
+
+// Missions
+app.all('/mission/reward', (req, res) => {
+    res.status(200).json({ rewarded: true, currentCredits: 10000 });
+});
+app.all('/mission/discard', (req, res) => {
+    res.status(200).json({ discardedMissionID: 1, newMission: null });
+});
+
+// Username
+app.all('/username/check', (req, res) => {
+    res.status(200).json({ username: req.body.username || "Player", available: true });
+});
+app.all('/username/change', (req, res) => {
+    res.status(200).json({ username: req.body.username, CurrentCredits: 9500 });
+});
+
+// Products
+app.all('/products', (req, res) => res.status(200).json({ products: [] }));
+app.all('/products/get', (req, res) => res.status(200).json({ products: [] }));
+
+// Account link
+app.all('/account/link', (req, res) => res.status(200).json({ accountFound: false }));
+app.all('/account/confirm', (req, res) => res.status(200).json({ newSession: false }));
+
+// Leaderboard
+app.all('/leaderboard', (req, res) => res.status(200).json({ entries: [] }));
+app.all('/leaderboards', (req, res) => res.status(200).json({ entries: [] }));
+
+// Developer messages
+app.all('/developer/messages', (req, res) => res.status(200).json({ messages: [] }));
+
+// Room
+app.all('/rooms', (req, res) => res.status(200).json([]));
+app.all('/rooms/get', (req, res) => res.status(200).json([]));
+app.all('/room/user', (req, res) => res.status(200).json(null));
+
+// Rate app
+app.all('/rate', (req, res) => res.status(200).json({ success: true }));
+app.all('/rateapp', (req, res) => res.status(200).json({ success: true }));
+
+// User profile
+app.all('/user/profile', (req, res) => res.status(200).json({ success: true }));
+app.all('/profile', (req, res) => res.status(200).json({ success: true }));
+
+// Health
 app.get('/', (req, res) => res.status(200).json({ status: 'ok', message: 'Backend Running on Railway' }));
+app.get('/health', (req, res) => res.status(200).json({ status: 'healthy' }));
 
+// Debug
+app.all('/debug', (req, res) => {
+    res.status(200).json({
+        method: req.method,
+        url: req.url,
+        headers: req.headers,
+        body: req.body
+    });
+});
+
+app.all('/debug/sessions', (req, res) => {
+    const deviceSessions = loadData('device_sessions.json', {});
+    const userSessions = loadData('user_sessions.json', {});
+    res.status(200).json({
+        deviceSessions: Object.keys(deviceSessions).length,
+        userSessions: Object.keys(userSessions).length,
+        users: Object.keys(loadData('users.json', {})).length
+    });
+});
+
+// 404
 app.use((req, res) => {
     console.log('[404]', req.method, req.originalUrl);
     res.status(404).json({ error: 'NOT_FOUND', path: req.originalUrl });
 });
 
+// Error handler
+app.use((err, req, res, next) => {
+    console.error('[ERROR]', err);
+    res.status(500).json({ error: 'INTERNAL_SERVER_ERROR', message: err.message });
+});
+
+// Server start
 app.listen(PORT, '0.0.0.0', () => {
     console.log('=================================');
-    console.log('RAILWAY BACKEND - RUNNING');
+    console.log('RAILWAY BACKEND - FIXED VERSION');
     console.log('=================================');
     console.log(`PORT: ${PORT}`);
     console.log(`PUBLIC URL: ${PUBLIC_BASE_URL}`);
+    console.log(`DATA DIR: ${DATA_DIR}`);
     console.log('=================================');
 });
