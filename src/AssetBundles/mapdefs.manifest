@@ -1,0 +1,25 @@
+ManifestFileVersion: 0
+CRC: 4080029977
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: a668cf7a173d0c4205d3f02e139a8de2
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 6d8756c9ab414a2a2b95b6638dac084a
+HashAppended: 0
+ClassTypes:
+- Class: 114
+  Script: {fileID: 11500000, guid: 9d1ac0a7c0d2146e1466969beaf1cd1c, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/gamedata/bundleresources/mapdefs/Bureau.asset
+- Assets/gamedata/bundleresources/mapdefs/Plaza.asset
+- Assets/gamedata/bundleresources/mapdefs/Grounded.asset
+- Assets/gamedata/bundleresources/mapdefs/Canals.asset
+- Assets/gamedata/bundleresources/mapdefs/Legacy.asset
+Dependencies:
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/sprites_menu

@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 2679829570
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: c81342604ee99d841a978c77e042f1b5
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1b9eb0c3355db1e8ae1c53cfa0459d8b
+HashAppended: 0
+ClassTypes:
+- Class: 114
+  Script: {fileID: 11500000, guid: b9305d1911737a021f15e538dcd3c58f, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+Assets:
+- Assets/gamedata/bundleresources/settings/DefaultPlayerData.asset
+Dependencies: []

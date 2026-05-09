@@ -1,0 +1,38 @@
+ManifestFileVersion: 0
+CRC: 3125357998
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: db3f81fa194b4a88a727186a6ad5e845
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5d36f6c1e540568465cdc356a238d899
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 03734211d8ac33fec0aade916a054a9d, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+Assets:
+- Assets/gamedata/graphics/characters/extras/halloween2016/prefabs/buckethead-1.prefab
+- Assets/gamedata/graphics/characters/extras/halloween2016/prefabs/ghost-1.prefab
+- Assets/gamedata/graphics/characters/extras/halloween2016/prefabs/scarecrow-1.prefab
+- Assets/gamedata/graphics/characters/extras/halloween2016/prefabs/pumpkin-1.prefab
+Dependencies:
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/shaders

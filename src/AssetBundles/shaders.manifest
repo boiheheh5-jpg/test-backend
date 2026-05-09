@@ -1,0 +1,80 @@
+ManifestFileVersion: 0
+CRC: 506596411
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 96efa270d9d223ba1ef0090b1a98865c
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 34f9d9a41d19d7bdab61391abc54ba6e
+HashAppended: 0
+ClassTypes:
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 109
+  Script: {instanceID: 0}
+Assets:
+- Assets/gamedata/shaders/Environment_Lightmapped_Grayscale.shader
+- Assets/gamedata/shaders/Environment_Lightmapped_TintMask.shader
+- Assets/gamedata/shaders/Environment_Decal_Lightmapped.shader
+- Assets/gamedata/shaders/Environment_Water.shader
+- Assets/gamedata/shaders/Environment_Reflective_ReflectionProbes_TintMask.shader
+- Assets/gamedata/shaders/Particles_AlphaTest.shader
+- Assets/gamedata/shaders/Environment_Lightmapped_Grayscale_TintMask.shader
+- Assets/gamedata/shaders/Environment_Lightmapped_VertexColorMovement.shader
+- Assets/gamedata/shaders/Skybox_Additive_VertexColorMovement.shader
+- Assets/gamedata/shaders/Character_Silhouette.shader
+- Assets/gamedata/shaders/Environment_Reflective_ReflectionProbes_Transp.shader
+- Assets/gamedata/shaders/ProceduralSprite_Overlay.shader
+- Assets/gamedata/shaders/Environment_Transparent_Spec_Lightmapped.shader
+- Assets/gamedata/shaders/RenderImage_Blur.shader
+- Assets/gamedata/shaders/Environment_Cutout_Lightmapped_TwoPass.shader
+- Assets/gamedata/shaders/LightProbes_Diffuse.shader
+- Assets/gamedata/shaders/LightProbes_Diffuse_RimColor_SpecColor.shader
+- Assets/gamedata/shaders/Environment_Spec_Lightmapped.shader
+- Assets/gamedata/shaders/WeaponSkin_preprocess.shader
+- Assets/gamedata/shaders/Environment_Cutout_Spec_Lightmapped.shader
+- Assets/gamedata/shaders/Environment_Shadow.shader
+- Assets/gamedata/shaders/Overlay_Texture.shader
+- Assets/gamedata/shaders/Environment_Transparent_Lightmapped.shader
+- Assets/gamedata/shaders/WeaponSkin_Base.shader
+- Assets/gamedata/shaders/WeaponSkin_Procedural.shader
+- Assets/gamedata/shaders/Skybox_Transparent.shader
+- Assets/gamedata/shaders/WeaponSkin_Preprocess_EdgeFix.shader
+- Assets/gamedata/shaders/Environment_Cutout_Lightmapped_VertexColorMovement_TwoPass.shader
+- Assets/gamedata/shaders/Environment_Emissive_Slideshow.shader
+- Assets/gamedata/shaders/Environment_Reflective_ReflectionProbes.shader
+- Assets/gamedata/shaders/VertexColor.shader
+- Assets/gamedata/shaders/Environment_Splatted_Lightmapped.shader
+- Assets/gamedata/shaders/Environment_Light.shader
+- Assets/gamedata/shaders/Environment_Reflective_ReflectionProbes_Grayscale_TintMask.shader
+- Assets/gamedata/shaders/Frag_Cutout.asset
+- Assets/gamedata/shaders/Character_Tint.shader
+- Assets/gamedata/shaders/LightProbes_Diffuse_RimColor_SpecColor_Emissive.shader
+- Assets/gamedata/shaders/Frag_Cutout_Edges.asset
+- Assets/gamedata/shaders/LightProbes_Reflective_Normalmapped.shader
+- Assets/gamedata/shaders/Tint.shader
+- Assets/gamedata/shaders/Environment_Cutout_Lightmapped_VertexColorMovement.shader
+- Assets/gamedata/shaders/Environment_WaterClip.shader
+- Assets/gamedata/shaders/Environment_Reflective.shader
+- Assets/gamedata/shaders/RenderPositions.shader
+- Assets/gamedata/shaders/Decal.shader
+- Assets/gamedata/shaders/LightProbes_MatCap.shader
+- Assets/gamedata/shaders/Vert_VertexColorMovement.asset
+- Assets/gamedata/shaders/Particles_AlphaBlend.shader
+- Assets/gamedata/shaders/Skybox.shader
+- Assets/gamedata/shaders/Environment_TexScroll.shader
+- Assets/gamedata/shaders/Environment_Emissive.shader
+- Assets/gamedata/shaders/Environment_Lightmapped.shader
+- Assets/gamedata/shaders/LightProbes_Transparent.shader
+- Assets/gamedata/shaders/Environment_Light_Tall.shader
+- Assets/gamedata/shaders/Environment_Cutout_Lightmapped.shader
+- Assets/gamedata/shaders/LightProbes_Transparent_Rim_Spec.shader
+- Assets/gamedata/shaders/WeaponSkin.shader
+- Assets/gamedata/shaders/Overlay_VertexColorAlpha.shader
+- Assets/gamedata/shaders/Environment_Multiply.shader
+- Assets/gamedata/shaders/Environment_AlphaSpec_Lightmapped.shader
+- Assets/gamedata/shaders/Character_Tint_LowDetail.shader
+- Assets/gamedata/shaders/PureCG.asset
+- Assets/gamedata/shaders/Overlay_Color.shader
+Dependencies: []

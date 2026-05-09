@@ -1,0 +1,121 @@
+ManifestFileVersion: 0
+CRC: 410692769
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 039d4b25070944c9066bb7c28e495943
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 215f8db2267d8435398499fb9ac4fbea
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 20
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 54
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 81
+  Script: {instanceID: 0}
+- Class: 82
+  Script: {instanceID: 0}
+- Class: 96
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6c1d85e1bad65ff7080fbde4b561988f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 926803027f72947fcb75768ea38fbd18, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6def2423aaa05ea2c66dc34ba1bd539b, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ae1b26c374558f576a34c57b58b6e5f4, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9f1c90e38fae8ec5fce03a3fe335f668, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 8ecfd6c639bde3cc2ea6ade922f732a6, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 8153d46817fef9891e0028b1c01d8521, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9eac6078a6b9d27a6a94b000c9a96da5, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f9c4a37857332ab57a0c16b084812b4c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 063b4bc89f1706daed74d011e2b5f00c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: c0bf1c0983385695b397053872a83b08, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 0dd7bf2951af46e839f0f8ed7a32bc4c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2d285e5925adbce9d21f30bef76436bb, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 57fe3a89a14f61089135f4b34b059cb6, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: db6182bc00c8a09ed8b79bca6d1127dd, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 50e7bf2f04b309fda66eaaeef77eb5f6, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5867e65f1bf8339728349b8e3d1886ba, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3a19fddfc4c0e4c464976c1885b7753b, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: c62d0dd1f847dd2d13168a7ba060eccb, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 124
+  Script: {instanceID: 0}
+- Class: 134
+  Script: {instanceID: 0}
+- Class: 135
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+- Class: 144
+  Script: {instanceID: 0}
+- Class: 169
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+- Class: 205
+  Script: {instanceID: 0}
+Assets:
+- Assets/gamedata/bundleresources/prefabs/game/Spectator.prefab
+- Assets/gamedata/bundleresources/prefabs/game/AudioSource.prefab
+- Assets/gamedata/bundleresources/prefabs/game/PlayArea.prefab
+- Assets/gamedata/bundleresources/prefabs/game/CharacterModel.prefab
+- Assets/gamedata/bundleresources/prefabs/game/Character.prefab
+- Assets/gamedata/bundleresources/prefabs/game/BuyArea.prefab
+- Assets/gamedata/bundleresources/prefabs/game/SniperScope_ACOG.prefab
+- Assets/gamedata/bundleresources/prefabs/game/FlashbangOverlay.prefab
+- Assets/gamedata/bundleresources/prefabs/game/MapViewCamera.prefab
+- Assets/gamedata/bundleresources/prefabs/game/BombTarget.prefab
+- Assets/gamedata/bundleresources/prefabs/game/GrenadeObject.prefab
+- Assets/gamedata/bundleresources/prefabs/game/FPSCamera.prefab
+- Assets/gamedata/bundleresources/prefabs/game/EditorGrid.prefab
+- Assets/gamedata/bundleresources/prefabs/game/SniperScope.prefab
+- Assets/gamedata/bundleresources/prefabs/game/WeaponOnGround.prefab
+- Assets/gamedata/bundleresources/prefabs/game/SmokeOverlay.prefab
+- Assets/gamedata/bundleresources/prefabs/game/C4_Planted.prefab
+Dependencies:
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/shaders
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/physicsmaterialdefs
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/effects

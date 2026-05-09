@@ -1,0 +1,31 @@
+ManifestFileVersion: 0
+CRC: 1283006013
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: ebff52ff049a695c19a9e6765e2664ae
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 44b96de541ae514f3604209856a922d8
+HashAppended: 0
+ClassTypes:
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: ca197d5179e9e8f8dc2939fa2284f061, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+Assets:
+- Assets/gamedata/bundleresources/characteranimations/characteranimationsets/AssaultRifle.asset
+- Assets/gamedata/bundleresources/characteranimations/characteranimationsets/Pistol.asset
+- Assets/gamedata/bundleresources/characteranimations/characteranimationsets/AssaultRifleWithGrip.asset
+- Assets/gamedata/bundleresources/characteranimations/characteranimationsets/Smg.asset
+- Assets/gamedata/bundleresources/characteranimations/characteranimationsets/Bomb.asset
+- Assets/gamedata/bundleresources/characteranimations/characteranimationsets/Revolver.asset
+- Assets/gamedata/bundleresources/characteranimations/characteranimationsets/Sniper.asset
+- Assets/gamedata/bundleresources/characteranimations/characteranimationsets/AutoSniper.asset
+- Assets/gamedata/bundleresources/characteranimations/characteranimationsets/DualPistol.asset
+- Assets/gamedata/bundleresources/characteranimations/characteranimationsets/Shotgun.asset
+- Assets/gamedata/bundleresources/characteranimations/characteranimationsets/Knife.asset
+- Assets/gamedata/bundleresources/characteranimations/characteranimationsets/Grenade.asset
+Dependencies: []

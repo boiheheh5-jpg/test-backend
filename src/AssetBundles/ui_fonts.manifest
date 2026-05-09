@@ -1,0 +1,27 @@
+ManifestFileVersion: 0
+CRC: 1067086334
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 73e36d3b62dc44674ee1a1c69002cbce
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 0bb4c37c915d5352389eeb93c1a3b27a
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+Assets:
+- Assets/gamedata/graphics/ui/fonts/Lato-Regular.ttf
+- Assets/gamedata/graphics/ui/fonts/NanumBarunGothic.ttf
+- Assets/gamedata/graphics/ui/fonts/NanumBarunGothicLight.ttf
+- Assets/gamedata/graphics/ui/fonts/Lato-Bold.ttf
+- Assets/gamedata/graphics/ui/fonts/Lato-Light.ttf
+- Assets/gamedata/graphics/ui/fonts/NanumBarunGothicBold.ttf
+Dependencies: []

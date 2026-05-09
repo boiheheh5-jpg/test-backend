@@ -1,0 +1,34 @@
+ManifestFileVersion: 0
+CRC: 4067799790
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 5f4af2dd0ff52508c0cf33b4b21a8a16
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: f4d58da2e394c3ac790f4c422276af4f
+HashAppended: 0
+ClassTypes:
+- Class: 134
+  Script: {instanceID: 0}
+Assets:
+- Assets/gamedata/bundleresources/settings/physicsmaterials/Plastic.physicMaterial
+- Assets/gamedata/bundleresources/settings/physicsmaterials/GlassImpenetrable.physicMaterial
+- Assets/gamedata/bundleresources/settings/physicsmaterials/WoodImpenetrable.physicMaterial
+- Assets/gamedata/bundleresources/settings/physicsmaterials/grenade_projectile.physicMaterial
+- Assets/gamedata/bundleresources/settings/physicsmaterials/Metal.physicMaterial
+- Assets/gamedata/bundleresources/settings/physicsmaterials/Wood.physicMaterial
+- Assets/gamedata/bundleresources/settings/physicsmaterials/NoFriction.physicMaterial
+- Assets/gamedata/bundleresources/settings/physicsmaterials/Grass.physicMaterial
+- Assets/gamedata/bundleresources/settings/physicsmaterials/Rubber.physicMaterial
+- Assets/gamedata/bundleresources/settings/physicsmaterials/Flesh.physicMaterial
+- Assets/gamedata/bundleresources/settings/physicsmaterials/Asphalt.physicMaterial
+- Assets/gamedata/bundleresources/settings/physicsmaterials/Cardboard.physicMaterial
+- Assets/gamedata/bundleresources/settings/physicsmaterials/ConcreteImpenetrable.physicMaterial
+- Assets/gamedata/bundleresources/settings/physicsmaterials/Concrete.physicMaterial
+- Assets/gamedata/bundleresources/settings/physicsmaterials/WeaponOnGround.physicMaterial
+- Assets/gamedata/bundleresources/settings/physicsmaterials/Cloth.physicMaterial
+- Assets/gamedata/bundleresources/settings/physicsmaterials/Glass.physicMaterial
+- Assets/gamedata/bundleresources/settings/physicsmaterials/Water.physicMaterial
+- Assets/gamedata/bundleresources/settings/physicsmaterials/MetalImpenetrable.physicMaterial
+Dependencies: []

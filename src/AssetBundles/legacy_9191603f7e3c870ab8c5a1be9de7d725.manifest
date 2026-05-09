@@ -1,0 +1,114 @@
+ManifestFileVersion: 0
+CRC: 629351225
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 0818e0aa9c08e321b462e5135466a20c
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 40de8e525a01d70a32e275feaf6eb8ff
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 20
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 81
+  Script: {instanceID: 0}
+- Class: 82
+  Script: {instanceID: 0}
+- Class: 92
+  Script: {instanceID: 0}
+- Class: 104
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 32d64ea285a6a53838411dc7ebe8ea80, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6def2423aaa05ea2c66dc34ba1bd539b, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9f1c90e38fae8ec5fce03a3fe335f668, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: d94d7f2417b65f56950d03368a5809f1, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5dc2b0654069bf47f96a716d4b18385f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f96e1956d88d477fbe3e3395e76c1f6a, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 61eb1897f5dd840853c0d395d86b5acc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7aa609e740abf5bb1632ffcba99ab28e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 8563d32831a4a2d07476f01348442b58, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 697ca6b8701044e1355f15082d37972f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5dd3c8b8bec3fd918d75f585d33ed9ca, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3b28d2f8df7949a5355e3f83e87716c2, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 0dd7bf2951af46e839f0f8ed7a32bc4c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: eb9fd239d0e9c1c8539c43b6310e7654, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7b8612fb6dee641b279de98386aeed30, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 792f254f4c5063935ed6151913f10f7f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5867e65f1bf8339728349b8e3d1886ba, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: d38620551e3ed0584c96eb95b8b5cd3c, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 121
+  Script: {instanceID: 0}
+- Class: 124
+  Script: {instanceID: 0}
+- Class: 134
+  Script: {instanceID: 0}
+- Class: 157
+  Script: {instanceID: 0}
+- Class: 167
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 215
+  Script: {instanceID: 0}
+- Class: 220
+  Script: {instanceID: 0}
+- Class: 241
+  Script: {instanceID: 0}
+- Class: 243
+  Script: {instanceID: 0}
+- Class: 245
+  Script: {instanceID: 0}
+- Class: 258
+  Script: {instanceID: 0}
+Assets:
+- Assets/GameData/BundleResources/Scenes/Legacy.unity
+Dependencies:
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/shaders
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/physicsmaterialdefs
