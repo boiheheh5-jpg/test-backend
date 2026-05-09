@@ -80,10 +80,11 @@ function parseSessionToken(header) {
         const raw = header.replace('Bearer ', '');
         const decoded = Buffer.from(raw, 'base64').toString('utf8');
         const parts = decoded.split(':');
+        // Format: userSessionID:userSessionToken:deviceSessionID:deviceSessionToken
         return {
-            userSessionID: parts[0] || null,
+            userSessionID:    parts[0] || null,
             userSessionToken: parts[1] || null,
-            deviceSessionID: parts[2] || null,
+            deviceSessionID:  parts[2] || null,
             deviceSessionToken: parts[3] || null
         };
     } catch (error) {
@@ -94,8 +95,8 @@ function parseSessionToken(header) {
 
 function requireDeviceSession(req, res, next) {
     const session = parseSessionToken(req.headers.authorization);
-    console.log('[REQUIRE DEVICE SESSION]', session ? 'Session found' : 'No session');
-    
+    console.log('[REQUIRE DEVICE SESSION]', session ? JSON.stringify(session) : 'No session');
+
     if (!session || !session.deviceSessionToken) {
         return res.status(401).json({ error: 'INVALID_DEVICE_SESSION' });
     }
@@ -108,19 +109,19 @@ function requireDeviceSession(req, res, next) {
     next();
 }
 
-// ============ START HANDLER - StartRequest.Return yapısına TAM UYUMLU ============
+// ============ START ============
 function startHandler(req, res) {
     console.log('[START] Request received');
     const body = normalizeBody(req);
-    
+
     const udid = body && body.udid && body.udid !== '-1' ? body.udid : generateToken(16);
     const deviceSessionToken = generateToken(32);
     const deviceSessionID = Math.floor(Math.random() * 999999);
 
     const deviceSessions = loadData('device_sessions.json', {});
     deviceSessions[deviceSessionToken] = {
-        udid: udid,
-        deviceSessionID: deviceSessionID,
+        udid,
+        deviceSessionID,
         devicePlatform: body.platform || body.devicePlatform || 'unknown',
         deviceModel: body.model || body.deviceModel || '',
         deviceOS: body.os || body.deviceOS || '',
@@ -132,30 +133,29 @@ function startHandler(req, res) {
     };
     saveData('device_sessions.json', deviceSessions);
 
-    // StartRequest.Return yapısına TAM UYUM
     const response = {
-        udid: udid,
-        deviceSessionID: deviceSessionID,
-        deviceSessionToken: deviceSessionToken,
+        udid,
+        deviceSessionID,
+        deviceSessionToken,
         assetBundleServerURLs: [`${PUBLIC_BASE_URL}/assets/`],
         hubAddress: PUBLIC_BASE_URL.replace(/^https?:\/\//, ''),
-        account: 0,  // LoginType.None = 0
-        tutorialCompleted: 0,  // TutorialStage.None = 0
+        account: 0,
+        tutorialCompleted: 0,
         config: {
-            version: "1.0.0",
-            assetVersion: "1",
+            version: '1.0.0',
+            assetVersion: '1',
             enabled: true
         }
     };
-    
+
     console.log('[START RESPONSE]', JSON.stringify(response));
     res.status(200).json(response);
 }
 
-// ============ LOGIN HANDLER ============
+// ============ LOGIN ============
 function loginHandler(req, res) {
     console.log('[LOGIN] Request received');
-    
+
     const body = normalizeBody(req);
     const externalID = body.externalID || body.ExternalID || (req.deviceInfo && req.deviceInfo.udid) || generateToken(16);
 
@@ -165,15 +165,15 @@ function loginHandler(req, res) {
     if (!user) {
         const userID = Math.floor(Date.now() / 1000);
         user = {
-            userID: userID,
-            externalID: externalID,
+            userID,
+            externalID,
             name: 'Player' + Math.floor(Math.random() * 9999),
             userType: 1,
             countryCode: 'US',
             credits: 10000,
             tokens: 100,
             skinpacks: 5,
-            ownedSkins: [1001, 1002, 1003, 1004, 1005],
+            ownedSkins: [],
             kills: 0,
             deaths: 0,
             assists: 0,
@@ -192,7 +192,6 @@ function loginHandler(req, res) {
             refundCount: 0,
             tutorialStage: 0,
             blockFriendRequests: false,
-            loadout: [],
             banSecondsLeft: 0,
             createdAt: Date.now()
         };
@@ -208,11 +207,10 @@ function loginHandler(req, res) {
     userSessions[userSessionToken] = { userID: user.userID, createdAt: Date.now() };
     saveData('user_sessions.json', userSessions);
 
-    // LoginResponse yapısı
     const loginResponse = {
         accountFound: false,
-        userSessionToken: userSessionToken,
-        userSessionID: userSessionID,
+        userSessionToken,
+        userSessionID,
         accountLinks: {
             facebook: false,
             google: false,
@@ -274,10 +272,10 @@ function loginHandler(req, res) {
                 }
             },
             inventory: {
-                skinpacks: user.skinpacks || 5,
+                skinpacks: user.skinpacks || 0,
                 currency: {
-                    tokens: user.tokens || 100,
-                    credits: user.credits || 10000
+                    tokens: user.tokens || 0,
+                    credits: user.credits || 0
                 },
                 ownedSkins: user.ownedSkins || []
             },
@@ -285,7 +283,7 @@ function loginHandler(req, res) {
             rankedPenaltyLeft: user.rankedPenaltyLeft || 0,
             userSettings: {
                 blockFriendRequests: user.blockFriendRequests || false,
-                loadout: user.loadout || []
+                loadout: []
             },
             friendLimit: user.friendLimit || 50,
             contacts: []
@@ -301,12 +299,14 @@ function loginHandler(req, res) {
     res.status(200).json(loginResponse);
 }
 
+// ============ LOG ============
 function logHandler(req, res) {
     const body = normalizeBody(req);
     console.log('[CLIENT LOG]', JSON.stringify(body).substring(0, 500));
     res.status(200).json({ success: true });
 }
 
+// ============ SERVER LIST ============
 function sendServerList(req, res) {
     console.log('[SERVER LIST] Request received');
     const servers = [{
@@ -328,10 +328,11 @@ function sendServerList(req, res) {
     res.status(200).json(servers);
 }
 
+// ============ STATS UPDATE ============
 function statsUpdateHandler(req, res) {
     const users = loadData('users.json', {});
     const body = normalizeBody(req);
-    
+
     let userID = null;
     if (req.headers.authorization) {
         const session = parseSessionToken(req.headers.authorization);
@@ -342,7 +343,7 @@ function statsUpdateHandler(req, res) {
             }
         }
     }
-    
+
     if (userID && users[userID]) {
         const user = users[userID];
         user.kills = (user.kills || 0) + (parseInt(body.kills) || 0);
@@ -357,73 +358,268 @@ function statsUpdateHandler(req, res) {
     res.status(200).json({ success: true });
 }
 
+// ============ USER CREDITS ============
+function userCreditsHandler(req, res) {
+    let credits = 10000;
+    if (req.headers.authorization) {
+        const session = parseSessionToken(req.headers.authorization);
+        if (session && session.userSessionToken) {
+            const sessions = loadData('user_sessions.json', {});
+            if (sessions[session.userSessionToken]) {
+                const users = loadData('users.json', {});
+                const user = users[sessions[session.userSessionToken].userID];
+                if (user) credits = user.credits || 0;
+            }
+        }
+    }
+    res.status(200).json({ Credits: credits });
+}
+
+// ============ USER STATS ============
+function userStatsHandler(req, res) {
+    res.status(200).json({
+        ranked: {
+            combat: { kills: 0, deaths: 0, assists: 0 },
+            stars: 0,
+            rank: 1,
+            rating: 1200,
+            percentile: 0,
+            currentStreak: 0,
+            placementMatchesLeft: 10
+        },
+        casual: {
+            combat: { kills: 0, deaths: 0, assists: 0 }
+        }
+    });
+}
+
+// ============ CHECK USERNAME ============
+function checkUsernameHandler(req, res) {
+    const body = normalizeBody(req);
+    const username = body.username || body.Username || 'Player';
+    const users = loadData('users.json', {});
+    const taken = Object.values(users).some(u => u && u.name && u.name.toLowerCase() === username.toLowerCase());
+    res.status(200).json({ username, available: !taken });
+}
+
+// ============ CHANGE USERNAME ============
+function changeUsernameHandler(req, res) {
+    const body = normalizeBody(req);
+    const username = body.username || body.Username || 'Player';
+    res.status(200).json({ username });
+}
+
+// ============ PURCHASE NAME CHANGE ============
+function purchaseNameChangeHandler(req, res) {
+    const body = normalizeBody(req);
+    const username = body.username || body.Username || 'Player';
+    res.status(200).json({ username, CurrentCredits: 9000 });
+}
+
+// ============ SKIN UNPACK ============
+function skinUnpackHandler(req, res) {
+    res.status(200).json({
+        skinID: 1001,
+        packsLeft: 4,
+        alreadyOwned: false
+    });
+}
+
+// ============ PURCHASE SKIN ============
+function purchaseSkinHandler(req, res) {
+    const body = normalizeBody(req);
+    res.status(200).json({
+        SkinBought: body.skinID || body.SkinID || 1001,
+        TokensLeft: 90
+    });
+}
+
+// ============ PURCHASE SKIN PACK ============
+function purchaseSkinPackHandler(req, res) {
+    res.status(200).json({
+        CurrentSkinPacks: 5,
+        CurrentCredits: 8000
+    });
+}
+
+// ============ ATTACH WEAPON SKIN ============
+function attachWeaponSkinHandler(req, res) {
+    res.status(200).json(true);
+}
+
+// ============ DETACH WEAPON SKIN ============
+function detachWeaponSkinHandler(req, res) {
+    res.status(200).json(true);
+}
+
+// ============ GET PRODUCTS ============
+function getProductsHandler(req, res) {
+    res.status(200).json([]);
+}
+
+// ============ LEADERBOARD ============
+function leaderboardHandler(req, res) {
+    res.status(200).json([]);
+}
+
+// ============ DEVELOPER MESSAGES ============
+function developerMessagesHandler(req, res) {
+    res.status(200).json({ messages: [] });
+}
+
+// ============ TUTORIAL COMPLETED ============
+function tutorialCompletedHandler(req, res) {
+    res.status(200).json({ success: true });
+}
+
+// ============ RATE APP ============
+function rateAppHandler(req, res) {
+    res.status(200).json({ success: true });
+}
+
+// ============ ACCOUNT LINK ============
+function accountLinkHandler(req, res) {
+    res.status(200).json({
+        accountFound: false,
+        nameChange: false
+    });
+}
+
+// ============ ACCOUNT LINK CONFIRMATION ============
+function accountLinkConfirmationHandler(req, res) {
+    res.status(200).json({
+        newSession: false,
+        nameChange: false
+    });
+}
+
+// ============ REWARD MISSION ============
+function rewardMissionHandler(req, res) {
+    res.status(200).json({
+        rewarded: true,
+        currentCredits: 10000
+    });
+}
+
+// ============ DISCARD MISSION ============
+function discardMissionHandler(req, res) {
+    res.status(200).json({
+        discardedMissionID: 0,
+        newMission: null
+    });
+}
+
+// ============ GET ROOMS ============
+function getRoomsHandler(req, res) {
+    res.status(200).json([]);
+}
+
+// ============ PURCHASE VERIFICATION ============
+function purchaseVerificationHandler(req, res) {
+    res.status(200).json({
+        paymentCompleted: true,
+        skinPacks: 1,
+        credits: 0
+    });
+}
+
 // ============ ENDPOINTS ============
 
-// Start - /start endpoint (Unity'nin beklediği)
+// Start
 app.all('/start', startHandler);
 app.all('/start/', startHandler);
-app.all('/StartRequest', startHandler);
-app.all('/StartRequest/', startHandler);
-app.all('/AppStartRequest', startHandler);
-app.all('/app/start', startHandler);
-app.all('/ServerRequests.StartRequest', startHandler);
-app.all('/ServerRequests/StartRequest', startHandler);
-app.all('*StartRequest*', startHandler);
-app.all('*start*', (req, res, next) => {
-    if (req.originalUrl.toLowerCase().includes('start')) {
-        startHandler(req, res);
-    } else {
-        next();
-    }
-});
 
 // Login
+app.all('/user/login', requireDeviceSession, loginHandler);
+app.all('/user/login/', requireDeviceSession, loginHandler);
 app.all('/login', requireDeviceSession, loginHandler);
 app.all('/login/', requireDeviceSession, loginHandler);
-app.all('/Login', requireDeviceSession, loginHandler);
 
 // Log
 app.all('/log', logHandler);
+app.all('/log/', logHandler);
 app.all('/logmessage', logHandler);
 app.all('/LogMessageRequest', logHandler);
-app.all('*log*', logHandler);
 
 // Server List
 app.all('/server/list', sendServerList);
+app.all('/server/list/', sendServerList);
 app.all('/servers', sendServerList);
-app.all('/GetServersRequest', sendServerList);
-app.all('/ServerRequests/GetServersRequest', sendServerList);
 
 // Stats
 app.all('/stats/update', statsUpdateHandler);
-app.all('/stats', (req, res) => res.status(200).json({ success: true }));
+app.all('/user/stats', userStatsHandler);
+app.all('/user/stats/', userStatsHandler);
+
+// Credits
+app.all('/user/credits', userCreditsHandler);
+app.all('/user/credits/', userCreditsHandler);
+
+// Username
+app.all('/username/check', checkUsernameHandler);
+app.all('/username/check/', checkUsernameHandler);
+app.all('/user/username', changeUsernameHandler);
+app.all('/user/username/', changeUsernameHandler);
+app.all('/user/username/purchase', purchaseNameChangeHandler);
+app.all('/user/username/purchase/', purchaseNameChangeHandler);
+
+// Skins
+app.all('/skin/unpack', skinUnpackHandler);
+app.all('/skin/unpack/', skinUnpackHandler);
+app.all('/skin/purchase', purchaseSkinHandler);
+app.all('/skin/purchase/', purchaseSkinHandler);
+app.all('/skin/pack/purchase', purchaseSkinPackHandler);
+app.all('/skin/pack/purchase/', purchaseSkinPackHandler);
+app.all('/skin/attach', attachWeaponSkinHandler);
+app.all('/skin/attach/', attachWeaponSkinHandler);
+app.all('/skin/detach', detachWeaponSkinHandler);
+app.all('/skin/detach/', detachWeaponSkinHandler);
+
+// Products
+app.all('/products', getProductsHandler);
+app.all('/products/', getProductsHandler);
+
+// Leaderboard
+app.all('/leaderboard', leaderboardHandler);
+app.all('/leaderboard/', leaderboardHandler);
+
+// Developer messages
+app.all('/developer/messages', developerMessagesHandler);
+app.all('/developer/messages/', developerMessagesHandler);
+
+// Tutorial
+app.all('/tutorial/completed', tutorialCompletedHandler);
+app.all('/tutorial/completed/', tutorialCompletedHandler);
+
+// Rate app
+app.all('/app/rate', rateAppHandler);
+app.all('/app/rate/', rateAppHandler);
+
+// Account link
+app.all('/account/link', accountLinkHandler);
+app.all('/account/link/', accountLinkHandler);
+app.all('/account/link/confirm', accountLinkConfirmationHandler);
+app.all('/account/link/confirm/', accountLinkConfirmationHandler);
+
+// Missions
+app.all('/mission/reward', rewardMissionHandler);
+app.all('/mission/reward/', rewardMissionHandler);
+app.all('/mission/discard', discardMissionHandler);
+app.all('/mission/discard/', discardMissionHandler);
+
+// Rooms
+app.all('/room/list', getRoomsHandler);
+app.all('/room/list/', getRoomsHandler);
+
+// Purchase verification
+app.all('/purchase/verify', purchaseVerificationHandler);
+app.all('/purchase/verify/', purchaseVerificationHandler);
 
 // Logout
 app.all('/logout', (req, res) => res.status(200).json({ success: true }));
 
-// Tutorial
-app.all('/tutorial/completed', (req, res) => res.status(200).json({ success: true }));
-
-// Credits
-app.all('/user/credits', (req, res) => res.status(200).json({ Credits: 10000 }));
-
-// Skins
-app.all('/skin/unpack', (req, res) => {
-    res.status(200).json({ 
-        success: true, 
-        skinID: 1001, 
-        packsLeft: 4,
-        alreadyOwned: false
-    });
-});
-
-// Username
-app.all('/username/check', (req, res) => {
-    res.status(200).json({ username: req.body.username || "Player", available: true });
-});
-
 // Health
-app.get('/', (req, res) => res.status(200).json({ status: 'ok', message: 'Backend Running on Railway' }));
+app.get('/', (req, res) => res.status(200).json({ status: 'ok', message: 'Backend Running' }));
 app.get('/health', (req, res) => res.status(200).json({ status: 'healthy' }));
 
 // Debug
@@ -446,21 +642,20 @@ app.all('/debug/sessions', (req, res) => {
     });
 });
 
-// 404
+// 404 - tüm bilinmeyen endpoint'leri logla
 app.use((req, res) => {
     console.log('[404]', req.method, req.originalUrl);
     res.status(404).json({ error: 'NOT_FOUND', path: req.originalUrl });
 });
 
-// Server start
 app.listen(PORT, '0.0.0.0', () => {
     console.log('=================================');
-    console.log('RAILWAY BACKEND - COMPLETE');
+    console.log('BACKEND SERVER');
     console.log('=================================');
     console.log(`PORT: ${PORT}`);
     console.log(`PUBLIC URL: ${PUBLIC_BASE_URL}`);
-    console.log(`Start Endpoint: ${PUBLIC_BASE_URL}/start`);
-    console.log(`Login Endpoint: ${PUBLIC_BASE_URL}/login`);
-    console.log(`Servers Endpoint: ${PUBLIC_BASE_URL}/servers`);
+    console.log(`Start:  ${PUBLIC_BASE_URL}/start`);
+    console.log(`Login:  ${PUBLIC_BASE_URL}/user/login`);
+    console.log(`Servers: ${PUBLIC_BASE_URL}/server/list`);
     console.log('=================================');
 });
