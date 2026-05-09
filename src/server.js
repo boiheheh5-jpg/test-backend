@@ -43,7 +43,6 @@ app.use((req, res, next) => {
 app.use('/assets', express.static(ASSET_DIR));
 app.use('/AssetBundles', express.static(ASSET_DIR));
 
-// Yardımcı fonksiyonlar
 function saveData(filename, data) {
     fs.writeFileSync(path.join(DATA_DIR, filename), JSON.stringify(data, null, 2));
 }
@@ -136,7 +135,7 @@ function startHandler(req, res) {
     res.status(200).json(buildStartResponse(normalizeBody(req)));
 }
 
-// ============ LOGIN HANDLER - TAMAMEN DOĞRU FORMAT ============
+// ============ LOGIN HANDLER - TAMAMEN DOĞRU ============
 function loginHandler(req, res) {
     const body = normalizeBody(req);
     const externalID = body.externalID || body.ExternalID || (req.deviceInfo && req.deviceInfo.udid) || generateToken(16);
@@ -149,13 +148,14 @@ function loginHandler(req, res) {
         user = {
             userID: userID,
             externalID: externalID,
-            username: 'Player' + Math.floor(Math.random() * 9999),
+            name: 'Player' + Math.floor(Math.random() * 9999),  // "name" alanı
+            userType: 1,  // Normal user
             countryCode: 'US',
             credits: 10000,
             gems: 0,
             tokens: 100,
             skinpacks: 5,
-            ownedSkins: [1001, 1002, 1003, 1004, 1005],
+            ownedSkins: [1001, 1002, 1003],
             kills: 0,
             deaths: 0,
             wins: 0,
@@ -172,7 +172,7 @@ function loginHandler(req, res) {
         };
         users[user.userID] = user;
         saveData('users.json', users);
-        console.log('[NEW USER] Created:', user.username);
+        console.log('[NEW USER] Created:', user.name);
     }
 
     const userSessionToken = generateToken(32);
@@ -182,7 +182,7 @@ function loginHandler(req, res) {
     userSessions[userSessionToken] = { userID: user.userID, createdAt: Date.now() };
     saveData('user_sessions.json', userSessions);
 
-    // ============ COMPLETE LOGIN DATA STRUCTURE ============
+    // ============ COMPLETE LOGIN DATA - USERBASICINFORMATION'A UYGUN ============
     const loginResponse = {
         accountFound: false,
         userSessionToken: userSessionToken,
@@ -195,7 +195,7 @@ function loginHandler(req, res) {
         nameChange: false,
         country: user.countryCode || 'US',
         tierValues: [100, 200, 400, 800, 1600, 3200, 6400],
-        products: [],  // InAppProducts
+        products: [],
         skinpackPrice: 2000,
         skinpackOffers: [1, 5, 10, 20],
         nameChangePrice: 5000,
@@ -209,15 +209,10 @@ function loginHandler(req, res) {
             timesAsked: 0
         },
         profile: {
-            basicInfo: {
-                UserID: user.userID,
-                Username: user.username,
-                Name: user.username,
-                AvatarID: 0,
-                AvatarURL: "",
-                Country: user.countryCode || "US",
-                Experience: 0,
-                Level: 1
+            basicInfo: {                           // [JsonName("basicInfo")]
+                userID: user.userID,               // [JsonName("userID")] - küçük u
+                name: user.name,                   // [JsonName("name")] - "name" alanı
+                userType: user.userType || 1       // [JsonName("userType")]
             },
             ban: 0,
             missionData: {
@@ -277,9 +272,7 @@ function loginHandler(req, res) {
                     Sensitivity: 1.0,
                     SoundVolume: 1.0,
                     MusicVolume: 0.5,
-                    Language: "en",
-                    Graphics: "High",
-                    FPS: 60
+                    Language: "en"
                 },
                 FriendRequests: [],
                 BlockedUsers: []
@@ -294,8 +287,7 @@ function loginHandler(req, res) {
         }
     };
 
-    console.log('[LOGIN SUCCESS]', user.username, 'ID:', user.userID);
-    console.log('[LOGIN RESPONSE SIZE]', JSON.stringify(loginResponse).length, 'bytes');
+    console.log('[LOGIN SUCCESS]', user.name, 'ID:', user.userID);
     res.status(200).json(loginResponse);
 }
 
@@ -323,22 +315,17 @@ function sendServerList(req, res) {
             Online: true,
             Status: 'Online',
             GameMode: 'Deathmatch',
-            Map: 'Default',
-            IsOfficial: true,
-            IsFull: false,
-            IsPrivate: false,
-            HasPassword: false
+            Map: 'Default'
         }
     ];
     res.status(200).json(servers);
 }
 
-// ============ STATS UPDATE HANDLER ============
+// ============ STATS UPDATE ============
 function statsUpdateHandler(req, res) {
     const users = loadData('users.json', {});
     const body = normalizeBody(req);
     
-    // Session'dan userID al (basitlik için header'dan da alabiliriz)
     let userID = null;
     if (req.headers.authorization) {
         const session = parseSessionToken(req.headers.authorization);
@@ -357,7 +344,7 @@ function statsUpdateHandler(req, res) {
         user.wins = (user.wins || 0) + (parseInt(body.wins) || 0);
         user.gamesPlayed = (user.gamesPlayed || 0) + (parseInt(body.gamesPlayed) || 0);
         saveData('users.json', users);
-        console.log('[STATS UPDATED]', user.username, user.kills, user.deaths, user.wins);
+        console.log('[STATS UPDATED]', user.name);
     }
     
     res.status(200).json({ success: true });
@@ -421,11 +408,9 @@ app.all('/skin/unpack', (req, res) => {
         alreadyOwned: false 
     });
 });
-
 app.all('/skinpack/purchase', (req, res) => {
     res.status(200).json({ CurrentSkinPacks: 4, CurrentCredits: 9500 });
 });
-
 app.all('/skin/purchase', (req, res) => {
     res.status(200).json({ success: true, TokensLeft: 90 });
 });
@@ -434,7 +419,6 @@ app.all('/skin/purchase', (req, res) => {
 app.all('/mission/reward', (req, res) => {
     res.status(200).json({ rewarded: true, currentCredits: 10000 });
 });
-
 app.all('/mission/discard', (req, res) => {
     res.status(200).json({ discardedMissionID: 1, newMission: null });
 });
@@ -443,7 +427,6 @@ app.all('/mission/discard', (req, res) => {
 app.all('/username/check', (req, res) => {
     res.status(200).json({ username: req.body.username || "Player", available: true });
 });
-
 app.all('/username/change', (req, res) => {
     res.status(200).json({ username: req.body.username, CurrentCredits: 9500 });
 });
@@ -492,7 +475,7 @@ app.use((req, res) => {
 // Server start
 app.listen(PORT, '0.0.0.0', () => {
     console.log('=================================');
-    console.log('RAILWAY BACKEND RUNNING');
+    console.log('RAILWAY BACKEND RUNNING - FIXED VERSION');
     console.log('=================================');
     console.log(`PORT: ${PORT}`);
     console.log(`PUBLIC URL: ${PUBLIC_BASE_URL}`);
