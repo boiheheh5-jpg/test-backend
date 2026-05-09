@@ -21,6 +21,7 @@ console.log('[CONFIG] PUBLIC_BASE_URL:', PUBLIC_BASE_URL);
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 if (!fs.existsSync(ASSET_DIR)) fs.mkdirSync(ASSET_DIR, { recursive: true });
 
+// CORS
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept, X-Requested-With, X-ApiVersion');
@@ -36,7 +37,10 @@ app.use(express.text({ type: '*/*', limit: '10mb' }));
 app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
     if (req.headers.authorization) {
-        console.log('[AUTH]', req.headers.authorization.substring(0, 60));
+        console.log('[AUTH HEADER]', req.headers.authorization.substring(0, 50) + '...');
+    }
+    if (req.body && Object.keys(req.body).length > 0) {
+        console.log('[BODY]', JSON.stringify(req.body).substring(0, 300));
     }
     next();
 });
@@ -83,34 +87,33 @@ function parseSessionToken(header) {
             deviceSessionToken: parts[3] || null
         };
     } catch (error) {
+        console.log('[PARSE ERROR]', error.message);
         return null;
     }
 }
 
 function requireDeviceSession(req, res, next) {
     const session = parseSessionToken(req.headers.authorization);
+    console.log('[REQUIRE DEVICE SESSION]', session ? 'Session found' : 'No session');
     
     if (!session || !session.deviceSessionToken) {
         return res.status(401).json({ error: 'INVALID_DEVICE_SESSION' });
     }
-    
     const sessions = loadData('device_sessions.json', {});
-    const deviceInfo = sessions[session.deviceSessionToken];
-    
-    if (!deviceInfo) {
+    if (!sessions[session.deviceSessionToken]) {
         return res.status(401).json({ error: 'DEVICE_SESSION_NOT_FOUND' });
     }
-    
     req.session = session;
-    req.deviceInfo = deviceInfo;
+    req.deviceInfo = sessions[session.deviceSessionToken];
     next();
 }
 
+// ============ START HANDLER - StartRequest.Return yapısına TAM UYUMLU ============
 function startHandler(req, res) {
-    console.log('[START]');
+    console.log('[START] Request received');
     const body = normalizeBody(req);
     
-    const udid = body.udid && body.udid !== '-1' ? body.udid : generateToken(16);
+    const udid = body && body.udid && body.udid !== '-1' ? body.udid : generateToken(16);
     const deviceSessionToken = generateToken(32);
     const deviceSessionID = Math.floor(Math.random() * 999999);
 
@@ -118,37 +121,49 @@ function startHandler(req, res) {
     deviceSessions[deviceSessionToken] = {
         udid: udid,
         deviceSessionID: deviceSessionID,
-        devicePlatform: body.platform || 'unknown',
-        deviceModel: body.model || '',
-        deviceOS: body.os || '',
+        devicePlatform: body.platform || body.devicePlatform || 'unknown',
+        deviceModel: body.model || body.deviceModel || '',
+        deviceOS: body.os || body.deviceOS || '',
+        deviceId: body.deviceId || body.deviceid || '',
+        ram: body.ram || 0,
+        vram: body.vram || 0,
+        appVersion: body.appversion || body.appVersion || '1.0.0',
         createdAt: Date.now()
     };
     saveData('device_sessions.json', deviceSessions);
 
-    res.status(200).json({
+    // StartRequest.Return yapısına TAM UYUM
+    const response = {
         udid: udid,
         deviceSessionID: deviceSessionID,
         deviceSessionToken: deviceSessionToken,
         assetBundleServerURLs: [`${PUBLIC_BASE_URL}/assets/`],
         hubAddress: PUBLIC_BASE_URL.replace(/^https?:\/\//, ''),
-        account: 0,
-        tutorialCompleted: 0,
-        config: { version: "1.0.0", assetVersion: "1" }
-    });
+        account: 0,  // LoginType.None = 0
+        tutorialCompleted: 0,  // TutorialStage.None = 0
+        config: {
+            version: "1.0.0",
+            assetVersion: "1",
+            enabled: true
+        }
+    };
+    
+    console.log('[START RESPONSE]', JSON.stringify(response));
+    res.status(200).json(response);
 }
 
-// ============ LOGIN HANDLER - GARANTİLİ SÜRÜM ============
+// ============ LOGIN HANDLER ============
 function loginHandler(req, res) {
-    console.log('[LOGIN]');
+    console.log('[LOGIN] Request received');
     
     const body = normalizeBody(req);
-    const externalID = body.externalID || body.ExternalID || req.deviceInfo.udid || generateToken(16);
+    const externalID = body.externalID || body.ExternalID || (req.deviceInfo && req.deviceInfo.udid) || generateToken(16);
 
     const users = loadData('users.json', {});
     let user = Object.values(users).find(u => u && u.externalID === externalID);
 
     if (!user) {
-        const userID = Date.now();
+        const userID = Math.floor(Date.now() / 1000);
         user = {
             userID: userID,
             externalID: externalID,
@@ -158,17 +173,32 @@ function loginHandler(req, res) {
             credits: 10000,
             tokens: 100,
             skinpacks: 5,
-            ownedSkins: [1001, 1002, 1003],
-            kills: 0, deaths: 0, assists: 0,
-            rank: 1, stars: 0, rating: 1200, percentile: 0, currentStreak: 0, placementMatchesLeft: 10,
-            casualKills: 0, casualDeaths: 0, casualAssists: 0,
-            rankedKillLimit: 100, rankedPenaltyLeft: 0, friendLimit: 50, refundCount: 0,
-            tutorialStage: 0, blockFriendRequests: false, loadout: [], banSecondsLeft: 0,
+            ownedSkins: [1001, 1002, 1003, 1004, 1005],
+            kills: 0,
+            deaths: 0,
+            assists: 0,
+            rank: 1,
+            stars: 0,
+            rating: 1200,
+            percentile: 0,
+            currentStreak: 0,
+            placementMatchesLeft: 10,
+            casualKills: 0,
+            casualDeaths: 0,
+            casualAssists: 0,
+            rankedKillLimit: 100,
+            rankedPenaltyLeft: 0,
+            friendLimit: 50,
+            refundCount: 0,
+            tutorialStage: 0,
+            blockFriendRequests: false,
+            loadout: [],
+            banSecondsLeft: 0,
             createdAt: Date.now()
         };
         users[user.userID] = user;
         saveData('users.json', users);
-        console.log('[NEW USER]', user.name);
+        console.log('[NEW USER] Created:', user.name);
     }
 
     const userSessionToken = generateToken(32);
@@ -178,14 +208,18 @@ function loginHandler(req, res) {
     userSessions[userSessionToken] = { userID: user.userID, createdAt: Date.now() };
     saveData('user_sessions.json', userSessions);
 
-    // TÜM ALANLAR GARANTİLİ - HERŞEY NULL OLABİLİR AMA basicInfo KESİNLİKLE DOLU
+    // LoginResponse yapısı
     const loginResponse = {
         accountFound: false,
         userSessionToken: userSessionToken,
         userSessionID: userSessionID,
-        accountLinks: { facebook: false, google: false, gamecenter: false },
+        accountLinks: {
+            facebook: false,
+            google: false,
+            gamecenter: false
+        },
         nameChange: false,
-        country: user.countryCode,
+        country: user.countryCode || 'US',
         tierValues: [100, 200, 400, 800, 1600, 3200, 6400],
         products: [],
         skinpackPrice: 2000,
@@ -194,92 +228,239 @@ function loginHandler(req, res) {
         clanCreationPrice: 10000,
         clanRenamePrice: 5000,
         clanMaxMemberLimit: 50,
-        refunds: user.refundCount,
-        rate: { canAskToRate: true, userHasNeverRated: true, timesAsked: 0 },
+        refunds: user.refundCount || 0,
+        rate: {
+            canAskToRate: true,
+            userHasNeverRated: true,
+            timesAsked: 0
+        },
         profile: {
-            basicInfo: {                    // BURASI ASLA NULL OLAMAZ!
+            basicInfo: {
                 userID: user.userID,
                 name: user.name,
-                userType: user.userType
+                userType: user.userType || 1
             },
-            ban: user.banSecondsLeft,
-            missionData: { Missions: [], CanDiscardMission: true, LastRefreshTime: Date.now() },
-            clan: { BasicInfo: null, MemberInfo: null, Role: 0 },
+            ban: user.banSecondsLeft || 0,
+            missionData: {
+                Missions: [],
+                CanDiscardMission: true,
+                LastRefreshTime: Date.now()
+            },
+            clan: {
+                BasicInfo: null,
+                MemberInfo: null,
+                Role: 0
+            },
             stats: {
                 ranked: {
-                    combat: { kills: user.kills, deaths: user.deaths, assists: user.assists },
-                    stars: user.stars, rank: user.rank, rating: user.rating,
-                    percentile: user.percentile, currentStreak: user.currentStreak,
-                    placementMatchesLeft: user.placementMatchesLeft
+                    combat: {
+                        kills: user.kills || 0,
+                        deaths: user.deaths || 0,
+                        assists: user.assists || 0
+                    },
+                    stars: user.stars || 0,
+                    rank: user.rank || 1,
+                    rating: user.rating || 1200,
+                    percentile: user.percentile || 0,
+                    currentStreak: user.currentStreak || 0,
+                    placementMatchesLeft: user.placementMatchesLeft || 10
                 },
-                casual: { combat: { kills: user.casualKills, deaths: user.casualDeaths, assists: user.casualAssists } }
+                casual: {
+                    combat: {
+                        kills: user.casualKills || 0,
+                        deaths: user.casualDeaths || 0,
+                        assists: user.casualAssists || 0
+                    }
+                }
             },
             inventory: {
-                skinpacks: user.skinpacks,
-                currency: { tokens: user.tokens, credits: user.credits },
-                ownedSkins: user.ownedSkins
+                skinpacks: user.skinpacks || 5,
+                currency: {
+                    tokens: user.tokens || 100,
+                    credits: user.credits || 10000
+                },
+                ownedSkins: user.ownedSkins || []
             },
-            rankedKillLimit: user.rankedKillLimit,
-            rankedPenaltyLeft: user.rankedPenaltyLeft,
-            userSettings: { blockFriendRequests: user.blockFriendRequests, loadout: user.loadout },
-            friendLimit: user.friendLimit,
+            rankedKillLimit: user.rankedKillLimit || 100,
+            rankedPenaltyLeft: user.rankedPenaltyLeft || 0,
+            userSettings: {
+                blockFriendRequests: user.blockFriendRequests || false,
+                loadout: user.loadout || []
+            },
+            friendLimit: user.friendLimit || 50,
             contacts: []
         },
-        onboardingStage: user.tutorialStage,
-        news: { messages: [], lastRead: 0 }
+        onboardingStage: user.tutorialStage || 0,
+        news: {
+            messages: [],
+            lastRead: 0
+        }
     };
 
-    console.log('[LOGIN SUCCESS]', user.name, 'UserID:', user.userID);
-    console.log('[CHECK] basicInfo.userID =', loginResponse.profile.basicInfo.userID);
-    console.log('[CHECK] basicInfo.name =', loginResponse.profile.basicInfo.name);
-    
+    console.log('[LOGIN SUCCESS]', user.name, 'ID:', user.userID);
     res.status(200).json(loginResponse);
 }
 
 function logHandler(req, res) {
-    console.log('[LOG]');
+    const body = normalizeBody(req);
+    console.log('[CLIENT LOG]', JSON.stringify(body).substring(0, 500));
     res.status(200).json({ success: true });
 }
 
 function sendServerList(req, res) {
-    res.status(200).json([{
-        Id: 'railway-1', Name: 'Railway Server', Region: 'EUROPE',
+    console.log('[SERVER LIST] Request received');
+    const servers = [{
+        Id: 'railway-1',
+        Name: 'Railway Server',
+        Region: 'EUROPE',
         Address: PUBLIC_BASE_URL.replace(/^https?:\/\//, '').split(':')[0],
         Host: PUBLIC_BASE_URL.replace(/^https?:\/\//, '').split(':')[0],
         IP: PUBLIC_BASE_URL.replace(/^https?:\/\//, '').split(':')[0],
-        Port: 7777, Players: 0, MaxPlayers: 100, Online: true
-    }]);
+        Port: 7777,
+        Players: 0,
+        CurrentPlayers: 0,
+        MaxPlayers: 100,
+        MaxPlayerCount: 100,
+        Ping: 0,
+        Online: true,
+        Status: 'Online'
+    }];
+    res.status(200).json(servers);
+}
+
+function statsUpdateHandler(req, res) {
+    const users = loadData('users.json', {});
+    const body = normalizeBody(req);
+    
+    let userID = null;
+    if (req.headers.authorization) {
+        const session = parseSessionToken(req.headers.authorization);
+        if (session && session.userSessionToken) {
+            const sessions = loadData('user_sessions.json', {});
+            if (sessions[session.userSessionToken]) {
+                userID = sessions[session.userSessionToken].userID;
+            }
+        }
+    }
+    
+    if (userID && users[userID]) {
+        const user = users[userID];
+        user.kills = (user.kills || 0) + (parseInt(body.kills) || 0);
+        user.deaths = (user.deaths || 0) + (parseInt(body.deaths) || 0);
+        user.assists = (user.assists || 0) + (parseInt(body.assists) || 0);
+        user.casualKills = (user.casualKills || 0) + (parseInt(body.casualKills) || 0);
+        user.casualDeaths = (user.casualDeaths || 0) + (parseInt(body.casualDeaths) || 0);
+        user.casualAssists = (user.casualAssists || 0) + (parseInt(body.casualAssists) || 0);
+        saveData('users.json', users);
+        console.log('[STATS UPDATED]', user.name);
+    }
+    res.status(200).json({ success: true });
 }
 
 // ============ ENDPOINTS ============
-app.all('/start', startHandler);
-app.all('/StartRequest', startHandler);
-app.all('/AppStartRequest', startHandler);
-app.all('/ServerRequests.StartRequest', startHandler);
-app.all('*StartRequest*', startHandler);
 
+// Start - /start endpoint (Unity'nin beklediği)
+app.all('/start', startHandler);
+app.all('/start/', startHandler);
+app.all('/StartRequest', startHandler);
+app.all('/StartRequest/', startHandler);
+app.all('/AppStartRequest', startHandler);
+app.all('/app/start', startHandler);
+app.all('/ServerRequests.StartRequest', startHandler);
+app.all('/ServerRequests/StartRequest', startHandler);
+app.all('*StartRequest*', startHandler);
+app.all('*start*', (req, res, next) => {
+    if (req.originalUrl.toLowerCase().includes('start')) {
+        startHandler(req, res);
+    } else {
+        next();
+    }
+});
+
+// Login
 app.all('/login', requireDeviceSession, loginHandler);
+app.all('/login/', requireDeviceSession, loginHandler);
 app.all('/Login', requireDeviceSession, loginHandler);
 
+// Log
 app.all('/log', logHandler);
 app.all('/logmessage', logHandler);
+app.all('/LogMessageRequest', logHandler);
+app.all('*log*', logHandler);
+
+// Server List
+app.all('/server/list', sendServerList);
 app.all('/servers', sendServerList);
 app.all('/GetServersRequest', sendServerList);
+app.all('/ServerRequests/GetServersRequest', sendServerList);
+
+// Stats
+app.all('/stats/update', statsUpdateHandler);
 app.all('/stats', (req, res) => res.status(200).json({ success: true }));
+
+// Logout
 app.all('/logout', (req, res) => res.status(200).json({ success: true }));
+
+// Tutorial
 app.all('/tutorial/completed', (req, res) => res.status(200).json({ success: true }));
 
-app.get('/', (req, res) => res.status(200).json({ status: 'ok' }));
+// Credits
+app.all('/user/credits', (req, res) => res.status(200).json({ Credits: 10000 }));
+
+// Skins
+app.all('/skin/unpack', (req, res) => {
+    res.status(200).json({ 
+        success: true, 
+        skinID: 1001, 
+        packsLeft: 4,
+        alreadyOwned: false
+    });
+});
+
+// Username
+app.all('/username/check', (req, res) => {
+    res.status(200).json({ username: req.body.username || "Player", available: true });
+});
+
+// Health
+app.get('/', (req, res) => res.status(200).json({ status: 'ok', message: 'Backend Running on Railway' }));
 app.get('/health', (req, res) => res.status(200).json({ status: 'healthy' }));
 
+// Debug
+app.all('/debug', (req, res) => {
+    res.status(200).json({
+        method: req.method,
+        url: req.url,
+        headers: req.headers,
+        body: req.body
+    });
+});
+
+app.all('/debug/sessions', (req, res) => {
+    const deviceSessions = loadData('device_sessions.json', {});
+    const userSessions = loadData('user_sessions.json', {});
+    res.status(200).json({
+        deviceSessions: Object.keys(deviceSessions).length,
+        userSessions: Object.keys(userSessions).length,
+        users: Object.keys(loadData('users.json', {})).length
+    });
+});
+
+// 404
 app.use((req, res) => {
     console.log('[404]', req.method, req.originalUrl);
     res.status(404).json({ error: 'NOT_FOUND', path: req.originalUrl });
 });
 
+// Server start
 app.listen(PORT, '0.0.0.0', () => {
     console.log('=================================');
-    console.log('RAILWAY BACKEND - FINAL');
-    console.log(`URL: ${PUBLIC_BASE_URL}`);
+    console.log('RAILWAY BACKEND - COMPLETE');
+    console.log('=================================');
+    console.log(`PORT: ${PORT}`);
+    console.log(`PUBLIC URL: ${PUBLIC_BASE_URL}`);
+    console.log(`Start Endpoint: ${PUBLIC_BASE_URL}/start`);
+    console.log(`Login Endpoint: ${PUBLIC_BASE_URL}/login`);
+    console.log(`Servers Endpoint: ${PUBLIC_BASE_URL}/servers`);
     console.log('=================================');
 });
