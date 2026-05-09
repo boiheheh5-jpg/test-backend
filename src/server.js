@@ -23,6 +23,7 @@ function saveData(filename, data) {
 function loadData(filename, fallback) {
 	const file = path.join(DATA_DIR, filename);
 	if (!fs.existsSync(file)) return fallback;
+
 	try {
 		return JSON.parse(fs.readFileSync(file, 'utf8'));
 	} catch (e) {
@@ -209,8 +210,8 @@ app.post('/app/log/message/', logHandler);
 app.post('/LogMessageRequest', logHandler);
 app.post('/LogMessageRequest/', logHandler);
 
-app.get('/servers', (req, res) => {
-	res.json([
+function buildServerListResponse() {
+	return [
 		{
 			id: 'local-1',
 			name: 'Local Server',
@@ -220,7 +221,31 @@ app.get('/servers', (req, res) => {
 			players: 0,
 			maxPlayers: 100
 		}
-	]);
+	];
+}
+
+app.get('/servers', (req, res) => {
+	res.json(buildServerListResponse());
+});
+
+app.post('/servers', (req, res) => {
+	res.json(buildServerListResponse());
+});
+
+app.get('/GetServersRequest', (req, res) => {
+	res.json(buildServerListResponse());
+});
+
+app.post('/GetServersRequest', (req, res) => {
+	res.json(buildServerListResponse());
+});
+
+app.get('/GetServersRequest/', (req, res) => {
+	res.json(buildServerListResponse());
+});
+
+app.post('/GetServersRequest/', (req, res) => {
+	res.json(buildServerListResponse());
 });
 
 app.get('/rooms', (req, res) => {
