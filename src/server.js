@@ -5,9 +5,6 @@ const path = require('path');
 
 const app = express();
 
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-
 const PORT = process.env.PORT || 3000;
 const DATA_DIR = path.join(__dirname, 'data');
 const ASSET_DIR = path.join(__dirname, 'AssetBundles');
@@ -15,6 +12,20 @@ const PUBLIC_BASE_URL = process.env.PUBLIC_BASE_URL || 'http://127.0.0.1:3000';
 
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 if (!fs.existsSync(ASSET_DIR)) fs.mkdirSync(ASSET_DIR, { recursive: true });
+
+app.use((req, res, next) => {
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept');
+	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+	if (req.method === 'OPTIONS') {
+		return res.sendStatus(204);
+	}
+	next();
+});
+
+app.use(express.json({ limit: '10mb', strict: false }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(express.text({ type: '*/*', limit: '10mb' }));
 
 function saveData(filename, data) {
 	fs.writeFileSync(path.join(DATA_DIR, filename), JSON.stringify(data, null, 2));
@@ -87,6 +98,52 @@ function requireUserSession(req, res, next) {
 	next();
 }
 
+function normalizeBody(req) {
+	if (req.body && typeof req.body === 'object') return req.body;
+
+	if (typeof req.body === 'string') {
+		try {
+			return JSON.parse(req.body);
+		} catch {
+			return {};
+		}
+	}
+
+	return {};
+}
+
+function buildServerListResponse() {
+	const server = {
+		id: 'local-1',
+		name: 'Local Server',
+		region: 'LOCAL',
+		address: '127.0.0.1',
+		host: '127.0.0.1',
+		ip: '127.0.0.1',
+		port: 7777,
+		players: 0,
+		currentPlayers: 0,
+		maxPlayers: 100,
+		maxPlayerCount: 100,
+		ping: 0,
+		online: true
+	};
+
+	return {
+		success: true,
+		count: 1,
+		serverCount: 1,
+		servers: [server],
+		Servers: [server],
+		data: [server]
+	};
+}
+
+function sendServerList(req, res) {
+	console.log('[GET SERVERS]', req.method, req.originalUrl, req.body);
+	res.status(200).json(buildServerListResponse());
+}
+
 app.use((req, res, next) => {
 	console.log('[REQ]', req.method, req.originalUrl);
 	next();
@@ -127,21 +184,22 @@ function buildStartResponse(body) {
 }
 
 function startHandler(req, res) {
-	console.log('[START BODY]', req.body);
-	res.json(buildStartResponse(req.body || {}));
+	const body = normalizeBody(req);
+	console.log('[START BODY]', body);
+	res.status(200).json(buildStartResponse(body));
 }
 
-app.post('/app/start', startHandler);
-app.post('/app/start/', startHandler);
-app.post('/start', startHandler);
-app.post('/start/', startHandler);
-app.post('/StartRequest', startHandler);
-app.post('/StartRequest/', startHandler);
-app.post('/AppStartRequest', startHandler);
-app.post('/AppStartRequest/', startHandler);
+app.all('/app/start', startHandler);
+app.all('/app/start/', startHandler);
+app.all('/start', startHandler);
+app.all('/start/', startHandler);
+app.all('/StartRequest', startHandler);
+app.all('/StartRequest/', startHandler);
+app.all('/AppStartRequest', startHandler);
+app.all('/AppStartRequest/', startHandler);
 
 function loginHandler(req, res) {
-	const body = req.body || {};
+	const body = normalizeBody(req);
 	const externalID = body.externalID || (req.deviceInfo && req.deviceInfo.udid) || generateToken(16);
 
 	const users = loadData('users.json', {});
@@ -171,9 +229,11 @@ function loginHandler(req, res) {
 	};
 	saveData('user_sessions.json', userSessions);
 
-	res.json({
+	res.status(200).json({
 		UserSessionID: userSessionID,
 		UserSessionToken: userSessionToken,
+		userSessionID: userSessionID,
+		userSessionToken: userSessionToken,
 		profile: {
 			BasicInfo: {
 				UserID: user.userID,
@@ -189,66 +249,42 @@ function loginHandler(req, res) {
 	});
 }
 
-app.post('/login', requireDeviceSession, loginHandler);
-app.post('/login/', requireDeviceSession, loginHandler);
-app.post('/Login', requireDeviceSession, loginHandler);
-app.post('/Login/', requireDeviceSession, loginHandler);
+app.all('/login', requireDeviceSession, loginHandler);
+app.all('/login/', requireDeviceSession, loginHandler);
+app.all('/Login', requireDeviceSession, loginHandler);
+app.all('/Login/', requireDeviceSession, loginHandler);
 
 function logHandler(req, res) {
-	console.log('[CLIENT LOG]', req.body);
-	res.json({ success: true, ok: true });
+	console.log('[CLIENT LOG]', normalizeBody(req));
+	res.status(200).json({ success: true, ok: true });
 }
 
-app.post('/log', logHandler);
-app.post('/log/', logHandler);
-app.post('/app/log', logHandler);
-app.post('/app/log/', logHandler);
-app.post('/logmessage', logHandler);
-app.post('/logmessage/', logHandler);
-app.post('/app/logmessage', logHandler);
-app.post('/app/logmessage/', logHandler);
-app.post('/app/log/message', logHandler);
-app.post('/app/log/message/', logHandler);
-app.post('/LogMessageRequest', logHandler);
-app.post('/LogMessageRequest/', logHandler);
+app.all('/log', logHandler);
+app.all('/log/', logHandler);
+app.all('/app/log', logHandler);
+app.all('/app/log/', logHandler);
+app.all('/logmessage', logHandler);
+app.all('/logmessage/', logHandler);
+app.all('/app/logmessage', logHandler);
+app.all('/app/logmessage/', logHandler);
+app.all('/app/log/message', logHandler);
+app.all('/app/log/message/', logHandler);
+app.all('/LogMessageRequest', logHandler);
+app.all('/LogMessageRequest/', logHandler);
 
-function buildServerListResponse() {
-	return [
-		{
-			id: 'local-1',
-			name: 'Local Server',
-			region: 'LOCAL',
-			address: '127.0.0.1',
-			port: 7777,
-			players: 0,
-			maxPlayers: 100
-		}
-	];
-}
-
-function sendServerList(req, res) {
-	console.log('[GET SERVERS BODY]', req.body);
-	res.json(buildServerListResponse());
-}
-
-app.get('/servers', sendServerList);
-app.post('/servers', sendServerList);
-
-app.get('/GetServersRequest', sendServerList);
-app.post('/GetServersRequest', sendServerList);
-app.get('/GetServersRequest/', sendServerList);
-app.post('/GetServersRequest/', sendServerList);
-
-app.get('/ServerRequests/GetServersRequest', sendServerList);
-app.post('/ServerRequests/GetServersRequest', sendServerList);
-app.get('/ServerRequests/GetServersRequest/', sendServerList);
-app.post('/ServerRequests/GetServersRequest/', sendServerList);
+app.all('/servers', sendServerList);
+app.all('/GetServersRequest', sendServerList);
+app.all('/GetServersRequest/', sendServerList);
+app.all('/ServerRequests/GetServersRequest', sendServerList);
+app.all('/ServerRequests/GetServersRequest/', sendServerList);
+app.all('/serverrequests/getserversrequest', sendServerList);
+app.all('/serverrequests/getserversrequest/', sendServerList);
 
 app.get('/rooms', (req, res) => {
-	res.json(loadData('rooms.json', []));
+	res.status(200).json(loadData('rooms.json', []));
 });
 
-app.post('/stats', requireUserSession, (req, res) => {
+app.all('/stats', requireUserSession, (req, res) => {
 	const users = loadData('users.json', {});
 	const user = users[req.userID];
 
@@ -256,10 +292,10 @@ app.post('/stats', requireUserSession, (req, res) => {
 		return res.status(404).json({ error: 'USER_NOT_FOUND' });
 	}
 
-	res.json({ stats: user.stats });
+	res.status(200).json({ stats: user.stats });
 });
 
-app.post('/stats/update', requireUserSession, (req, res) => {
+app.all('/stats/update', requireUserSession, (req, res) => {
 	const users = loadData('users.json', {});
 	const user = users[req.userID];
 
@@ -267,17 +303,17 @@ app.post('/stats/update', requireUserSession, (req, res) => {
 		return res.status(404).json({ error: 'USER_NOT_FOUND' });
 	}
 
-	const body = req.body || {};
+	const body = normalizeBody(req);
 	user.stats.kills += parseInt(body.kills || 0, 10) || 0;
 	user.stats.deaths += parseInt(body.deaths || 0, 10) || 0;
 	user.stats.wins += parseInt(body.wins || 0, 10) || 0;
 	user.stats.gamesPlayed += parseInt(body.gamesPlayed || 0, 10) || 0;
 
 	saveData('users.json', users);
-	res.json({ stats: user.stats });
+	res.status(200).json({ stats: user.stats });
 });
 
-app.post('/logout', requireDeviceSession, (req, res) => {
+app.all('/logout', requireDeviceSession, (req, res) => {
 	const session = req.session;
 	const userSessions = loadData('user_sessions.json', {});
 
@@ -286,15 +322,15 @@ app.post('/logout', requireDeviceSession, (req, res) => {
 		saveData('user_sessions.json', userSessions);
 	}
 
-	res.json({ success: true });
+	res.status(200).json({ success: true });
 });
 
-app.post('/tutorial/completed', (req, res) => {
-	res.json({ success: true });
+app.all('/tutorial/completed', (req, res) => {
+	res.status(200).json({ success: true });
 });
 
 app.get('/', (req, res) => {
-	res.json({
+	res.status(200).json({
 		status: 'ok',
 		message: 'Backend Running',
 		time: Date.now()
@@ -313,4 +349,5 @@ app.listen(PORT, () => {
 	console.log('BACKEND RUNNING');
 	console.log('PORT:', PORT);
 	console.log('ASSET PATH:', ASSET_DIR);
+	console.log('PUBLIC BASE URL:', PUBLIC_BASE_URL);
 });
