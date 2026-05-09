@@ -27,7 +27,7 @@ function loadData(filename, fallback) {
 	try {
 		return JSON.parse(fs.readFileSync(file, 'utf8'));
 	} catch (e) {
-		console.log('JSON ERROR', filename, e.message);
+		console.log('[JSON ERROR]', filename, e.message);
 		return fallback;
 	}
 }
@@ -137,6 +137,8 @@ app.post('/start', startHandler);
 app.post('/start/', startHandler);
 app.post('/StartRequest', startHandler);
 app.post('/StartRequest/', startHandler);
+app.post('/AppStartRequest', startHandler);
+app.post('/AppStartRequest/', startHandler);
 
 function loginHandler(req, res) {
 	const body = req.body || {};
@@ -224,29 +226,23 @@ function buildServerListResponse() {
 	];
 }
 
-app.get('/servers', (req, res) => {
+function sendServerList(req, res) {
+	console.log('[GET SERVERS BODY]', req.body);
 	res.json(buildServerListResponse());
-});
+}
 
-app.post('/servers', (req, res) => {
-	res.json(buildServerListResponse());
-});
+app.get('/servers', sendServerList);
+app.post('/servers', sendServerList);
 
-app.get('/GetServersRequest', (req, res) => {
-	res.json(buildServerListResponse());
-});
+app.get('/GetServersRequest', sendServerList);
+app.post('/GetServersRequest', sendServerList);
+app.get('/GetServersRequest/', sendServerList);
+app.post('/GetServersRequest/', sendServerList);
 
-app.post('/GetServersRequest', (req, res) => {
-	res.json(buildServerListResponse());
-});
-
-app.get('/GetServersRequest/', (req, res) => {
-	res.json(buildServerListResponse());
-});
-
-app.post('/GetServersRequest/', (req, res) => {
-	res.json(buildServerListResponse());
-});
+app.get('/ServerRequests/GetServersRequest', sendServerList);
+app.post('/ServerRequests/GetServersRequest', sendServerList);
+app.get('/ServerRequests/GetServersRequest/', sendServerList);
+app.post('/ServerRequests/GetServersRequest/', sendServerList);
 
 app.get('/rooms', (req, res) => {
 	res.json(loadData('rooms.json', []));
