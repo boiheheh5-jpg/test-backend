@@ -1,67 +1,39 @@
 ManifestFileVersion: 0
-CRC: 2976952578
+CRC: 281988461
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: grounded_67ac869e6dab80477e201cf92eb6a734
-      Dependencies:
-        Dependency_0: shaders
-        Dependency_1: physicsmaterialdefs
-    Info_1:
       Name: tutorial_0a64ddcbefb9e85307199915a68be74b
       Dependencies:
         Dependency_0: shaders
         Dependency_1: physicsmaterialdefs
-    Info_2:
-      Name: legacy_9191603f7e3c870ab8c5a1be9de7d725
-      Dependencies:
-        Dependency_0: shaders
-        Dependency_1: physicsmaterialdefs
-    Info_3:
-      Name: mainmenu_082e667c233ec14c63d95b0dd825c136
-      Dependencies: {}
-    Info_4:
-      Name: plaza_dba22e176bde710f7cfe2208dc921241
-      Dependencies:
-        Dependency_0: shaders
-        Dependency_1: physicsmaterialdefs
-    Info_5:
-      Name: bureau_03fcf8e54c348078bda4f475a38a22a5
-      Dependencies:
-        Dependency_0: shaders
-        Dependency_1: physicsmaterialdefs
-    Info_6:
-      Name: canals_5b89fe92c4be69134d1475878f8a000e
-      Dependencies:
-        Dependency_0: shaders
-        Dependency_1: physicsmaterialdefs
-    Info_7:
+    Info_1:
       Name: sprites_special
       Dependencies: {}
-    Info_8:
+    Info_2:
       Name: sprites_menu
       Dependencies: {}
-    Info_9:
+    Info_3:
       Name: shaders
       Dependencies: {}
-    Info_10:
+    Info_4:
       Name: physicsmaterialdefs
       Dependencies: {}
-    Info_11:
+    Info_5:
       Name: effects
       Dependencies:
         Dependency_0: shaders
-    Info_12:
+    Info_6:
       Name: prefabs_game
       Dependencies:
         Dependency_0: shaders
         Dependency_1: physicsmaterialdefs
         Dependency_2: effects
-    Info_13:
+    Info_7:
       Name: halloween
       Dependencies:
         Dependency_0: shaders
-    Info_14:
+    Info_8:
       Name: ui_shared
       Dependencies:
         Dependency_0: sprites_special
@@ -71,7 +43,7 @@ AssetBundleManifest:
         Dependency_4: sprites_hud
         Dependency_5: sprites_weaponicons
         Dependency_6: sprites_minimap
-    Info_15:
+    Info_9:
       Name: ui_game
       Dependencies:
         Dependency_0: sprites_menu
@@ -82,7 +54,7 @@ AssetBundleManifest:
         Dependency_5: sprites_weaponicons
         Dependency_6: sprites_touch
         Dependency_7: sprites_minimap
-    Info_16:
+    Info_10:
       Name: ui_menu
       Dependencies:
         Dependency_0: sprites_menu
@@ -92,11 +64,11 @@ AssetBundleManifest:
         Dependency_4: sprites_hud
         Dependency_5: sprites_weaponicons
         Dependency_6: sprites_minimap
-    Info_17:
+    Info_11:
       Name: christmas
       Dependencies:
         Dependency_0: shaders
-    Info_18:
+    Info_12:
       Name: ui_touch
       Dependencies:
         Dependency_0: sprites_menu
@@ -104,53 +76,53 @@ AssetBundleManifest:
         Dependency_2: sprites_hud
         Dependency_3: sprites_weaponicons
         Dependency_4: sprites_touch
-    Info_19:
+    Info_13:
       Name: languages
       Dependencies: {}
-    Info_20:
+    Info_14:
       Name: ui_fonts
       Dependencies: {}
-    Info_21:
+    Info_15:
       Name: weaponskindefs
       Dependencies:
         Dependency_0: shaders
         Dependency_1: weapondefs
         Dependency_2: characteranimationsets
         Dependency_3: sprites_weaponicons
-    Info_22:
+    Info_16:
       Name: skindefs
       Dependencies:
         Dependency_0: shaders
-    Info_23:
+    Info_17:
       Name: weapondefs
       Dependencies:
         Dependency_0: shaders
         Dependency_1: characteranimationsets
         Dependency_2: sprites_weaponicons
-    Info_24:
+    Info_18:
       Name: particledefs
       Dependencies:
         Dependency_0: shaders
-    Info_25:
+    Info_19:
       Name: settings
       Dependencies:
         Dependency_0: sprites_hud
         Dependency_1: sprites_weaponicons
         Dependency_2: sprites_touch
         Dependency_3: sprites_minimap
-    Info_26:
+    Info_20:
       Name: sprites_hud
       Dependencies: {}
-    Info_27:
+    Info_21:
       Name: characteranimationsets
       Dependencies: {}
-    Info_28:
+    Info_22:
       Name: sprites_weaponicons
       Dependencies: {}
-    Info_29:
+    Info_23:
       Name: sprites_touch
       Dependencies: {}
-    Info_30:
+    Info_24:
       Name: defuse
       Dependencies:
         Dependency_0: sprites_menu
@@ -158,50 +130,78 @@ AssetBundleManifest:
         Dependency_2: sprites_hud
         Dependency_3: sprites_weaponicons
         Dependency_4: sprites_minimap
-    Info_31:
+    Info_25:
       Name: gungamegamemode
       Dependencies:
         Dependency_0: sprites_menu
         Dependency_1: ui_fonts
         Dependency_2: sprites_hud
-    Info_32:
+    Info_26:
       Name: materialdefs
       Dependencies:
         Dependency_0: physicsmaterialdefs
         Dependency_1: particledefs
-    Info_33:
+    Info_27:
       Name: sprites_minimap
       Dependencies: {}
-    Info_34:
+    Info_28:
       Name: defaultplayerdata
       Dependencies: {}
-    Info_35:
+    Info_29:
       Name: mapmetadatas/plaza
       Dependencies: {}
-    Info_36:
+    Info_30:
       Name: mapmetadatas/legacy
       Dependencies: {}
-    Info_37:
+    Info_31:
       Name: mapdefs
       Dependencies:
         Dependency_0: sprites_menu
-    Info_38:
+    Info_32:
       Name: mapmetadatas/bureau
       Dependencies: {}
-    Info_39:
+    Info_33:
       Name: ui_localizedfonts
       Dependencies:
         Dependency_0: ui_fonts
-    Info_40:
+    Info_34:
       Name: teamdeathmatchgamemodesettings
       Dependencies:
         Dependency_0: sprites_menu
         Dependency_1: ui_fonts
         Dependency_2: sprites_hud
         Dependency_3: sprites_weaponicons
-    Info_41:
+    Info_35:
       Name: mapmetadatas/grounded
       Dependencies: {}
-    Info_42:
+    Info_36:
       Name: mapmetadatas/canals
       Dependencies: {}
+    Info_37:
+      Name: mainmenu
+      Dependencies: {}
+    Info_38:
+      Name: grounded
+      Dependencies:
+        Dependency_0: shaders
+        Dependency_1: physicsmaterialdefs
+    Info_39:
+      Name: legacy
+      Dependencies:
+        Dependency_0: shaders
+        Dependency_1: physicsmaterialdefs
+    Info_40:
+      Name: plaza
+      Dependencies:
+        Dependency_0: shaders
+        Dependency_1: physicsmaterialdefs
+    Info_41:
+      Name: bureau
+      Dependencies:
+        Dependency_0: shaders
+        Dependency_1: physicsmaterialdefs
+    Info_42:
+      Name: canals
+      Dependencies:
+        Dependency_0: shaders
+        Dependency_1: physicsmaterialdefs
