@@ -139,10 +139,26 @@ function buildServerList() {
 	];
 }
 
+function buildServerListResponse() {
+	const servers = buildServerList();
+	return {
+		success: true,
+		count: servers.length,
+		serverCount: servers.length,
+		servers: servers,
+		Servers: servers,
+		data: servers
+	};
+}
+
 function sendServerList(req, res) {
-	console.log('[GET SERVERS BODY]', req.body);
+	console.log('[SERVERS] method=', req.method);
+	console.log('[SERVERS] url=', req.originalUrl);
+	console.log('[SERVERS] content-type=', req.headers['content-type']);
+	console.log('[SERVERS] body=', req.body);
+
 	res.setHeader('Content-Type', 'application/json; charset=utf-8');
-	res.status(200).send(JSON.stringify(buildServerList()));
+	res.status(200).send(JSON.stringify(buildServerListResponse()));
 }
 
 function buildStartResponse(body) {
