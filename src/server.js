@@ -113,7 +113,9 @@ function buildStartResponse(body) {
 		udid,
 		deviceSessionID,
 		deviceSessionToken,
-		assetBundleServerURLs: [],
+		assetBundleServerURLs: [
+			`${PUBLIC_BASE_URL}/assets/`
+		],
 		hubAddress: PUBLIC_BASE_URL.replace(/^https?:\/\//, ''),
 		account: 0,
 		loginType: 0,
