@@ -13,341 +13,199 @@ const PUBLIC_BASE_URL = process.env.PUBLIC_BASE_URL || 'http://127.0.0.1:3000';
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 if (!fs.existsSync(ASSET_DIR)) fs.mkdirSync(ASSET_DIR, { recursive: true });
 
+/* ================= CORS ================= */
 app.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', '*');
-	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept');
-	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-	if (req.method === 'OPTIONS') {
-		return res.sendStatus(204);
-	}
+	res.setHeader('Access-Control-Allow-Headers', '*');
+	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+
+	if (req.method === 'OPTIONS') return res.sendStatus(204);
 	next();
 });
 
+/* ================= BODY ================= */
 app.use(express.json({ limit: '10mb', strict: false }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-app.use(express.text({ type: '*/*', limit: '10mb' }));
+app.use(express.text({ type: '*/*' }));
 
-function saveData(filename, data) {
-	fs.writeFileSync(path.join(DATA_DIR, filename), JSON.stringify(data, null, 2));
+/* ================= FILE SYSTEM ================= */
+function save(file, data) {
+	fs.writeFileSync(path.join(DATA_DIR, file), JSON.stringify(data, null, 2));
 }
 
-function loadData(filename, fallback) {
-	const file = path.join(DATA_DIR, filename);
-	if (!fs.existsSync(file)) return fallback;
-
+function load(file, fallback) {
+	const p = path.join(DATA_DIR, file);
+	if (!fs.existsSync(p)) return fallback;
 	try {
-		return JSON.parse(fs.readFileSync(file, 'utf8'));
-	} catch (e) {
-		console.log('[JSON ERROR]', filename, e.message);
+		return JSON.parse(fs.readFileSync(p, 'utf8'));
+	} catch {
 		return fallback;
 	}
 }
 
-function generateToken(length) {
-	return crypto.randomBytes(length).toString('hex');
+/* ================= UTIL ================= */
+function token(len) {
+	return crypto.randomBytes(len).toString('hex');
 }
 
-function normalizeBody(req) {
-	if (req.body && typeof req.body === 'object') return req.body;
-
+function body(req) {
 	if (typeof req.body === 'string') {
-		try {
-			return JSON.parse(req.body);
-		} catch {
-			return {};
-		}
+		try { return JSON.parse(req.body); } catch { return {}; }
 	}
-
-	return {};
+	return req.body || {};
 }
 
-function parseSessionToken(header) {
+/* ================= DEVICE SESSION ================= */
+function parseBearer(header) {
 	if (!header || !header.startsWith('Bearer ')) return null;
-
 	try {
-		const raw = header.replace('Bearer ', '');
-		const decoded = Buffer.from(raw, 'base64').toString('utf8');
-		const parts = decoded.split(':');
+		const raw = header.slice(7);
+		const decoded = Buffer.from(raw, 'base64').toString();
+		const p = decoded.split(':');
 
 		return {
-			userSessionID: parts[0] || null,
-			userSessionToken: parts[1] || null,
-			deviceSessionID: parts[2] || null,
-			deviceSessionToken: parts[3] || null
+			userSessionID: p[0],
+			userSessionToken: p[1],
+			deviceSessionID: p[2],
+			deviceSessionToken: p[3]
 		};
 	} catch {
 		return null;
 	}
 }
 
-function requireDeviceSession(req, res, next) {
-	const session = parseSessionToken(req.headers.authorization);
-	if (!session || !session.deviceSessionToken) {
-		return res.status(401).json({ error: 'INVALID_DEVICE_SESSION' });
-	}
-
-	const sessions = loadData('device_sessions.json', {});
-	if (!sessions[session.deviceSessionToken]) {
-		return res.status(401).json({ error: 'DEVICE_SESSION_NOT_FOUND' });
-	}
-
-	req.session = session;
-	req.deviceInfo = sessions[session.deviceSessionToken];
-	next();
-}
-
-function requireUserSession(req, res, next) {
-	const session = parseSessionToken(req.headers.authorization);
-	if (!session || !session.userSessionToken) {
-		return res.status(401).json({ error: 'INVALID_USER_SESSION' });
-	}
-
-	const sessions = loadData('user_sessions.json', {});
-	if (!sessions[session.userSessionToken]) {
-		return res.status(401).json({ error: 'USER_SESSION_NOT_FOUND' });
-	}
-
-	req.session = session;
-	req.userID = sessions[session.userSessionToken].userID;
-	next();
-}
-
-app.use((req, res, next) => {
-	console.log('[REQ]', req.method, req.originalUrl);
-	next();
-});
-
-app.use('/assets', express.static(ASSET_DIR));
-
+/* ================= SERVER LIST (FIXED FORMAT) ================= */
 function buildServerList() {
-	return [
-		{
-			Id: 'local-1',
-			Name: 'Local Server',
-			Region: 'LOCAL',
-			Address: '127.0.0.1',
-			Host: '127.0.0.1',
-			IP: '127.0.0.1',
-			Port: 7777,
-			Players: 0,
-			CurrentPlayers: 0,
-			MaxPlayers: 100,
-			MaxPlayerCount: 100,
-			Ping: 0,
-			Online: true
-		}
-	];
-}
-
-function sendServerList(req, res) {
-	console.log('[SERVER LIST] method=', req.method);
-	console.log('[SERVER LIST] url=', req.originalUrl);
-	console.log('[SERVER LIST] content-type=', req.headers['content-type']);
-	console.log('[SERVER LIST] body=', req.body);
-
-	res.setHeader('Content-Type', 'application/json; charset=utf-8');
-	res.status(200).send(JSON.stringify(buildServerList()));
-}
-
-function buildStartResponse(body) {
-	const udid = body && body.udid && body.udid !== '-1' ? body.udid : generateToken(16);
-	const deviceSessionToken = generateToken(32);
-	const deviceSessionID = Math.floor(Math.random() * 999999);
-
-	const deviceSessions = loadData('device_sessions.json', {});
-	deviceSessions[deviceSessionToken] = {
-		udid,
-		deviceSessionID,
-		devicePlatform: body.platform || body.devicePlatform || 'unknown',
-		deviceModel: body.model || '',
-		deviceOS: body.os || '',
-		createdAt: Date.now()
+	return {
+		ServerList: [
+			{
+				Id: 1,
+				Name: "Local Server",
+				Region: "LOCAL",
+				Address: "127.0.0.1:7777",
+				Host: "127.0.0.1",
+				IP: "127.0.0.1",
+				Port: 7777,
+				Players: 0,
+				CurrentPlayers: 0,
+				MaxPlayers: 100,
+				Ping: 0,
+				Online: true
+			}
+		]
 	};
-	saveData('device_sessions.json', deviceSessions);
+}
+
+/* ================= START ================= */
+function startResponse(b) {
+	const udid = (b && b.udid && b.udid !== '-1') ? b.udid : token(16);
+	const deviceToken = token(32);
+	const deviceID = Math.floor(Math.random() * 999999);
+
+	const devices = load('devices.json', {});
+	devices[deviceToken] = {
+		udid,
+		deviceID,
+		platform: b.platform || 'unknown',
+		model: b.model || '',
+		os: b.os || '',
+		time: Date.now()
+	};
+	save('devices.json', devices);
 
 	return {
-		udid,
-		deviceSessionID,
-		deviceSessionToken,
-		assetBundleServerURLs: [
-			`${PUBLIC_BASE_URL}/assets/`
-		],
-		hubAddress: PUBLIC_BASE_URL.replace(/^https?:\/\//, ''),
-		account: 0,
-		loginType: 0,
-		tutorialCompleted: 0,
-		tutorialStage: 0,
-		config: {}
+		Udid: udid,
+		DeviceSessionID: deviceID,
+		DeviceSessionToken: deviceToken,
+		AssetBundleServerURLs: [`${PUBLIC_BASE_URL}/assets/`],
+		HubAddress: PUBLIC_BASE_URL.replace(/^https?:\/\//, ''),
+		Account: 0,
+		LoginType: 0,
+		TutorialCompleted: 0,
+		TutorialStage: 0,
+		Config: {}
 	};
 }
 
-function startHandler(req, res) {
-	const body = normalizeBody(req);
-	console.log('[START BODY]', body);
-	res.status(200).json(buildStartResponse(body));
-}
+/* ================= LOGIN ================= */
+function login(req, res) {
+	const b = body(req);
+	const externalID = b.externalID || token(16);
 
-function loginHandler(req, res) {
-	const body = normalizeBody(req);
-	const externalID = body.externalID || (req.deviceInfo && req.deviceInfo.udid) || generateToken(16);
-
-	const users = loadData('users.json', {});
-	let user = Object.values(users).find(u => u && u.externalID === externalID);
+	const users = load('users.json', {});
+	let user = Object.values(users).find(u => u.externalID === externalID);
 
 	if (!user) {
-		const userID = Date.now();
+		const id = Date.now();
 		user = {
-			userID,
+			userID: id,
 			username: 'Player' + Math.floor(Math.random() * 9999),
 			externalID,
 			credits: 10000,
-			stats: { kills: 0, deaths: 0, wins: 0, gamesPlayed: 0 },
-			createdAt: Date.now()
+			stats: { kills: 0, deaths: 0, wins: 0, gamesPlayed: 0 }
 		};
-		users[userID] = user;
-		saveData('users.json', users);
+		users[id] = user;
+		save('users.json', users);
 	}
 
-	const userSessionToken = generateToken(32);
-	const userSessionID = Math.floor(Math.random() * 999999);
+	const userToken = token(32);
+	const userID = Math.floor(Math.random() * 999999);
 
-	const userSessions = loadData('user_sessions.json', {});
-	userSessions[userSessionToken] = {
-		userID: user.userID,
-		createdAt: Date.now()
-	};
-	saveData('user_sessions.json', userSessions);
+	const sessions = load('sessions.json', {});
+	sessions[userToken] = { userID: user.userID };
+	save('sessions.json', sessions);
 
-	res.status(200).json({
-		UserSessionID: userSessionID,
-		UserSessionToken: userSessionToken,
-		userSessionID: userSessionID,
-		userSessionToken: userSessionToken,
-		profile: {
+	res.json({
+		UserSessionID: userID,
+		UserSessionToken: userToken,
+		Profile: {
 			BasicInfo: {
 				UserID: user.userID,
 				Username: user.username
 			},
 			Inventory: {
-				Currency: {
-					Credits: user.credits
-				}
+				Currency: { Credits: user.credits }
 			},
 			Stats: user.stats
 		}
 	});
 }
 
-function logHandler(req, res) {
-	console.log('[CLIENT LOG]', normalizeBody(req));
-	res.status(200).json({ success: true, ok: true });
-}
+/* ================= ROUTES ================= */
 
-app.all('/app/start', startHandler);
-app.all('/app/start/', startHandler);
-app.all('/start', startHandler);
-app.all('/start/', startHandler);
-app.all('/StartRequest', startHandler);
-app.all('/StartRequest/', startHandler);
-app.all('/AppStartRequest', startHandler);
-app.all('/AppStartRequest/', startHandler);
+/* START */
+app.all('/app/start', (req,res)=>res.json(startResponse(body(req))));
+app.all('/StartRequest', (req,res)=>res.json(startResponse(body(req))));
 
-app.all('/login', requireDeviceSession, loginHandler);
-app.all('/login/', requireDeviceSession, loginHandler);
-app.all('/Login', requireDeviceSession, loginHandler);
-app.all('/Login/', requireDeviceSession, loginHandler);
+/* LOGIN */
+app.all('/login', login);
+app.all('/Login', login);
+app.all('/LoginRequest', login);
 
-app.all('/log', logHandler);
-app.all('/log/', logHandler);
-app.all('/app/log', logHandler);
-app.all('/app/log/', logHandler);
-app.all('/logmessage', logHandler);
-app.all('/logmessage/', logHandler);
-app.all('/app/logmessage', logHandler);
-app.all('/app/logmessage/', logHandler);
-app.all('/app/log/message', logHandler);
-app.all('/app/log/message/', logHandler);
-app.all('/LogMessageRequest', logHandler);
-app.all('/LogMessageRequest/', logHandler);
+/* SERVER LIST (CRITICAL FIX) */
+app.all('/server/list', (req,res)=>res.json(buildServerList()));
+app.all('/servers', (req,res)=>res.json(buildServerList()));
+app.all('/GetServersRequest', (req,res)=>res.json(buildServerList()));
+app.all('/ServerRequests/GetServersRequest', (req,res)=>res.json(buildServerList()));
 
-app.all('/server/list', sendServerList);
-app.all('/server/list/', sendServerList);
-app.all('/servers', sendServerList);
-app.all('/GetServersRequest', sendServerList);
-app.all('/GetServersRequest/', sendServerList);
-app.all('/ServerRequests/GetServersRequest', sendServerList);
-app.all('/ServerRequests/GetServersRequest/', sendServerList);
-app.all('/serverrequests/getserversrequest', sendServerList);
-app.all('/serverrequests/getserversrequest/', sendServerList);
+/* LOG */
+app.all('/log', (req,res)=>res.json({ ok:true }));
 
-app.get('/rooms', (req, res) => {
-	res.status(200).json(loadData('rooms.json', []));
+/* STATS SAFE */
+app.all('/stats', (req,res)=>res.json({ stats:{kills:0,deaths:0,wins:0} }));
+
+/* ROOT */
+app.get('/', (req,res)=>{
+	res.json({ status:"ok", time:Date.now() });
 });
 
-app.all('/stats', requireUserSession, (req, res) => {
-	const users = loadData('users.json', {});
-	const user = users[req.userID];
-
-	if (!user) {
-		return res.status(404).json({ error: 'USER_NOT_FOUND' });
-	}
-
-	res.status(200).json({ stats: user.stats });
+/* 404 */
+app.use((req,res)=>{
+	res.status(404).json({ error:"NOT_FOUND", path:req.originalUrl });
 });
 
-app.all('/stats/update', requireUserSession, (req, res) => {
-	const users = loadData('users.json', {});
-	const user = users[req.userID];
-
-	if (!user) {
-		return res.status(404).json({ error: 'USER_NOT_FOUND' });
-	}
-
-	const body = normalizeBody(req);
-	user.stats.kills += parseInt(body.kills || 0, 10) || 0;
-	user.stats.deaths += parseInt(body.deaths || 0, 10) || 0;
-	user.stats.wins += parseInt(body.wins || 0, 10) || 0;
-	user.stats.gamesPlayed += parseInt(body.gamesPlayed || 0, 10) || 0;
-
-	saveData('users.json', users);
-	res.status(200).json({ stats: user.stats });
-});
-
-app.all('/logout', requireDeviceSession, (req, res) => {
-	const session = req.session;
-	const userSessions = loadData('user_sessions.json', {});
-
-	if (session && session.userSessionToken) {
-		delete userSessions[session.userSessionToken];
-		saveData('user_sessions.json', userSessions);
-	}
-
-	res.status(200).json({ success: true });
-});
-
-app.all('/tutorial/completed', (req, res) => {
-	res.status(200).json({ success: true });
-});
-
-app.get('/', (req, res) => {
-	res.status(200).json({
-		status: 'ok',
-		message: 'Backend Running',
-		time: Date.now()
-	});
-});
-
-app.use((req, res) => {
-	console.log('[404]', req.method, req.originalUrl);
-	res.status(404).json({
-		error: 'NOT_FOUND',
-		path: req.originalUrl
-	});
-});
-
+/* ================= START ================= */
 app.listen(PORT, () => {
-	console.log('BACKEND RUNNING');
-	console.log('PORT:', PORT);
-	console.log('ASSET PATH:', ASSET_DIR);
-	console.log('PUBLIC BASE URL:', PUBLIC_BASE_URL);
+	console.log("BACKEND READY");
+	console.log("PORT:", PORT);
 });
