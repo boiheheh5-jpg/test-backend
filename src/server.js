@@ -178,7 +178,7 @@ function loginHandler(req, res) {
             userID,
             externalID,
             name: 'Player' + Math.floor(Math.random() * 9999),
-            userType: 1,
+            userType: 4,
             countryCode: 'US',
             credits: 10000,
             tokens: 100,
