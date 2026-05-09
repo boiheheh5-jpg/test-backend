@@ -540,6 +540,10 @@ app.all('/log', logHandler);
 app.all('/log/', logHandler);
 app.all('/logmessage', logHandler);
 app.all('/LogMessageRequest', logHandler);
+app.all('/app/log/message', logHandler);
+app.all('/app/log/message/', logHandler);
+app.all('/app/log', logHandler);
+app.all('/app/log/', logHandler);
 
 // Server List
 app.all('/server/list', sendServerList);
