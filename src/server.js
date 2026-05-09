@@ -39,7 +39,7 @@ app.use((req, res, next) => {
     if (req.headers.authorization) {
         console.log('[AUTH HEADER]', req.headers.authorization.substring(0, 50) + '...');
     }
-    if (req.body && Object.keys(req.body).length > 0) {
+    if (req.body && typeof req.body === 'object' && Object.keys(req.body).length > 0) {
         console.log('[BODY]', JSON.stringify(req.body).substring(0, 300));
     }
     next();
@@ -48,6 +48,7 @@ app.use((req, res, next) => {
 app.use('/assets', express.static(ASSET_DIR));
 app.use('/AssetBundles', express.static(ASSET_DIR));
 
+// ============ HELPERS ============
 function saveData(filename, data) {
     fs.writeFileSync(path.join(DATA_DIR, filename), JSON.stringify(data, null, 2));
 }
@@ -80,11 +81,10 @@ function parseSessionToken(header) {
         const raw = header.replace('Bearer ', '');
         const decoded = Buffer.from(raw, 'base64').toString('utf8');
         const parts = decoded.split(':');
-        // Format: userSessionID:userSessionToken:deviceSessionID:deviceSessionToken
         return {
-            userSessionID:    parts[0] || null,
-            userSessionToken: parts[1] || null,
-            deviceSessionID:  parts[2] || null,
+            userSessionID:     parts[0] || null,
+            userSessionToken:  parts[1] || null,
+            deviceSessionID:   parts[2] || null,
             deviceSessionToken: parts[3] || null
         };
     } catch (error) {
@@ -95,8 +95,6 @@ function parseSessionToken(header) {
 
 function requireDeviceSession(req, res, next) {
     const session = parseSessionToken(req.headers.authorization);
-    console.log('[REQUIRE DEVICE SESSION]', session ? JSON.stringify(session) : 'No session');
-
     if (!session || !session.deviceSessionToken) {
         return res.status(401).json({ error: 'INVALID_DEVICE_SESSION' });
     }
@@ -107,6 +105,16 @@ function requireDeviceSession(req, res, next) {
     req.session = session;
     req.deviceInfo = sessions[session.deviceSessionToken];
     next();
+}
+
+function getUserFromSession(req) {
+    if (!req.headers.authorization) return null;
+    const session = parseSessionToken(req.headers.authorization);
+    if (!session || !session.userSessionToken) return null;
+    const sessions = loadData('user_sessions.json', {});
+    if (!sessions[session.userSessionToken]) return null;
+    const users = loadData('users.json', {});
+    return users[sessions[session.userSessionToken].userID] || null;
 }
 
 // ============ START ============
@@ -228,7 +236,7 @@ function loginHandler(req, res) {
         clanMaxMemberLimit: 50,
         refunds: user.refundCount || 0,
         rate: {
-            canAskToRate: true,
+            canAskToRate: false,
             userHasNeverRated: true,
             timesAsked: 0
         },
@@ -241,14 +249,10 @@ function loginHandler(req, res) {
             ban: user.banSecondsLeft || 0,
             missionData: {
                 Missions: [],
-                CanDiscardMission: true,
+                CanDiscardMission: false,
                 LastRefreshTime: Date.now()
             },
-            clan: {
-                BasicInfo: null,
-                MemberInfo: null,
-                Role: 0
-            },
+            clan: null,
             stats: {
                 ranked: {
                     combat: {
@@ -302,7 +306,7 @@ function loginHandler(req, res) {
 // ============ LOG ============
 function logHandler(req, res) {
     const body = normalizeBody(req);
-    console.log('[CLIENT LOG]', JSON.stringify(body).substring(0, 500));
+    console.log('[CLIENT LOG]', JSON.stringify(body).substring(0, 200));
     res.status(200).json({ success: true });
 }
 
@@ -328,69 +332,57 @@ function sendServerList(req, res) {
     res.status(200).json(servers);
 }
 
-// ============ STATS UPDATE ============
-function statsUpdateHandler(req, res) {
-    const users = loadData('users.json', {});
-    const body = normalizeBody(req);
-
-    let userID = null;
-    if (req.headers.authorization) {
-        const session = parseSessionToken(req.headers.authorization);
-        if (session && session.userSessionToken) {
-            const sessions = loadData('user_sessions.json', {});
-            if (sessions[session.userSessionToken]) {
-                userID = sessions[session.userSessionToken].userID;
-            }
-        }
-    }
-
-    if (userID && users[userID]) {
-        const user = users[userID];
-        user.kills = (user.kills || 0) + (parseInt(body.kills) || 0);
-        user.deaths = (user.deaths || 0) + (parseInt(body.deaths) || 0);
-        user.assists = (user.assists || 0) + (parseInt(body.assists) || 0);
-        user.casualKills = (user.casualKills || 0) + (parseInt(body.casualKills) || 0);
-        user.casualDeaths = (user.casualDeaths || 0) + (parseInt(body.casualDeaths) || 0);
-        user.casualAssists = (user.casualAssists || 0) + (parseInt(body.casualAssists) || 0);
-        saveData('users.json', users);
-        console.log('[STATS UPDATED]', user.name);
-    }
-    res.status(200).json({ success: true });
-}
-
 // ============ USER CREDITS ============
 function userCreditsHandler(req, res) {
-    let credits = 10000;
-    if (req.headers.authorization) {
-        const session = parseSessionToken(req.headers.authorization);
-        if (session && session.userSessionToken) {
-            const sessions = loadData('user_sessions.json', {});
-            if (sessions[session.userSessionToken]) {
-                const users = loadData('users.json', {});
-                const user = users[sessions[session.userSessionToken].userID];
-                if (user) credits = user.credits || 0;
-            }
-        }
-    }
-    res.status(200).json({ Credits: credits });
+    const user = getUserFromSession(req);
+    res.status(200).json({ Credits: user ? (user.credits || 0) : 10000 });
 }
 
 // ============ USER STATS ============
 function userStatsHandler(req, res) {
+    const user = getUserFromSession(req);
     res.status(200).json({
         ranked: {
-            combat: { kills: 0, deaths: 0, assists: 0 },
-            stars: 0,
-            rank: 1,
-            rating: 1200,
-            percentile: 0,
-            currentStreak: 0,
-            placementMatchesLeft: 10
+            combat: {
+                kills: user ? (user.kills || 0) : 0,
+                deaths: user ? (user.deaths || 0) : 0,
+                assists: user ? (user.assists || 0) : 0
+            },
+            stars: user ? (user.stars || 0) : 0,
+            rank: user ? (user.rank || 1) : 1,
+            rating: user ? (user.rating || 1200) : 1200,
+            percentile: user ? (user.percentile || 0) : 0,
+            currentStreak: user ? (user.currentStreak || 0) : 0,
+            placementMatchesLeft: user ? (user.placementMatchesLeft || 10) : 10
         },
         casual: {
-            combat: { kills: 0, deaths: 0, assists: 0 }
+            combat: {
+                kills: user ? (user.casualKills || 0) : 0,
+                deaths: user ? (user.casualDeaths || 0) : 0,
+                assists: user ? (user.casualAssists || 0) : 0
+            }
         }
     });
+}
+
+// ============ STATS UPDATE ============
+function statsUpdateHandler(req, res) {
+    const body = normalizeBody(req);
+    const user = getUserFromSession(req);
+    if (user) {
+        const users = loadData('users.json', {});
+        const u = users[user.userID];
+        if (u) {
+            u.kills = (u.kills || 0) + (parseInt(body.kills) || 0);
+            u.deaths = (u.deaths || 0) + (parseInt(body.deaths) || 0);
+            u.assists = (u.assists || 0) + (parseInt(body.assists) || 0);
+            u.casualKills = (u.casualKills || 0) + (parseInt(body.casualKills) || 0);
+            u.casualDeaths = (u.casualDeaths || 0) + (parseInt(body.casualDeaths) || 0);
+            u.casualAssists = (u.casualAssists || 0) + (parseInt(body.casualAssists) || 0);
+            saveData('users.json', users);
+        }
+    }
+    res.status(200).json({ success: true });
 }
 
 // ============ CHECK USERNAME ============
@@ -406,6 +398,12 @@ function checkUsernameHandler(req, res) {
 function changeUsernameHandler(req, res) {
     const body = normalizeBody(req);
     const username = body.username || body.Username || 'Player';
+    const user = getUserFromSession(req);
+    if (user) {
+        const users = loadData('users.json', {});
+        users[user.userID].name = username;
+        saveData('users.json', users);
+    }
     res.status(200).json({ username });
 }
 
@@ -413,16 +411,24 @@ function changeUsernameHandler(req, res) {
 function purchaseNameChangeHandler(req, res) {
     const body = normalizeBody(req);
     const username = body.username || body.Username || 'Player';
-    res.status(200).json({ username, CurrentCredits: 9000 });
+    const user = getUserFromSession(req);
+    let credits = 10000;
+    if (user) {
+        const users = loadData('users.json', {});
+        const u = users[user.userID];
+        if (u) {
+            u.name = username;
+            u.credits = Math.max(0, (u.credits || 0) - (body.price || body.Price || 0));
+            credits = u.credits;
+            saveData('users.json', users);
+        }
+    }
+    res.status(200).json({ username, CurrentCredits: credits });
 }
 
 // ============ SKIN UNPACK ============
 function skinUnpackHandler(req, res) {
-    res.status(200).json({
-        skinID: 1001,
-        packsLeft: 4,
-        alreadyOwned: false
-    });
+    res.status(200).json({ skinID: 1001, packsLeft: 4, alreadyOwned: false });
 }
 
 // ============ PURCHASE SKIN ============
@@ -436,91 +442,46 @@ function purchaseSkinHandler(req, res) {
 
 // ============ PURCHASE SKIN PACK ============
 function purchaseSkinPackHandler(req, res) {
-    res.status(200).json({
-        CurrentSkinPacks: 5,
-        CurrentCredits: 8000
-    });
+    res.status(200).json({ CurrentSkinPacks: 5, CurrentCredits: 8000 });
 }
 
-// ============ ATTACH WEAPON SKIN ============
-function attachWeaponSkinHandler(req, res) {
-    res.status(200).json(true);
-}
-
-// ============ DETACH WEAPON SKIN ============
-function detachWeaponSkinHandler(req, res) {
-    res.status(200).json(true);
-}
+// ============ ATTACH / DETACH WEAPON SKIN ============
+function attachWeaponSkinHandler(req, res) { res.status(200).json(true); }
+function detachWeaponSkinHandler(req, res) { res.status(200).json(true); }
 
 // ============ GET PRODUCTS ============
-function getProductsHandler(req, res) {
-    res.status(200).json([]);
-}
+function getProductsHandler(req, res) { res.status(200).json([]); }
 
 // ============ LEADERBOARD ============
-function leaderboardHandler(req, res) {
-    res.status(200).json([]);
-}
+function leaderboardHandler(req, res) { res.status(200).json([]); }
 
 // ============ DEVELOPER MESSAGES ============
-function developerMessagesHandler(req, res) {
-    res.status(200).json({ messages: [] });
-}
-
-// ============ TUTORIAL COMPLETED ============
-function tutorialCompletedHandler(req, res) {
-    res.status(200).json({ success: true });
-}
-
-// ============ RATE APP ============
-function rateAppHandler(req, res) {
-    res.status(200).json({ success: true });
-}
-
-// ============ ACCOUNT LINK ============
-function accountLinkHandler(req, res) {
-    res.status(200).json({
-        accountFound: false,
-        nameChange: false
-    });
-}
-
-// ============ ACCOUNT LINK CONFIRMATION ============
-function accountLinkConfirmationHandler(req, res) {
-    res.status(200).json({
-        newSession: false,
-        nameChange: false
-    });
-}
+function developerMessagesHandler(req, res) { res.status(200).json({ messages: [] }); }
 
 // ============ REWARD MISSION ============
 function rewardMissionHandler(req, res) {
-    res.status(200).json({
-        rewarded: true,
-        currentCredits: 10000
-    });
+    res.status(200).json({ rewarded: true, currentCredits: 10000 });
 }
 
 // ============ DISCARD MISSION ============
 function discardMissionHandler(req, res) {
-    res.status(200).json({
-        discardedMissionID: 0,
-        newMission: null
-    });
+    res.status(200).json({ discardedMissionID: 0, newMission: null });
 }
 
 // ============ GET ROOMS ============
-function getRoomsHandler(req, res) {
-    res.status(200).json([]);
-}
+function getRoomsHandler(req, res) { res.status(200).json([]); }
 
 // ============ PURCHASE VERIFICATION ============
 function purchaseVerificationHandler(req, res) {
-    res.status(200).json({
-        paymentCompleted: true,
-        skinPacks: 1,
-        credits: 0
-    });
+    res.status(200).json({ paymentCompleted: true, skinPacks: 1, credits: 0 });
+}
+
+// ============ ACCOUNT LINK ============
+function accountLinkHandler(req, res) {
+    res.status(200).json({ accountFound: false, nameChange: false });
+}
+function accountLinkConfirmationHandler(req, res) {
+    res.status(200).json({ newSession: false, nameChange: false });
 }
 
 // ============ ENDPOINTS ============
@@ -540,18 +501,24 @@ app.all('/log', logHandler);
 app.all('/log/', logHandler);
 app.all('/logmessage', logHandler);
 app.all('/LogMessageRequest', logHandler);
-app.all('/app/log/message', logHandler);
-app.all('/app/log/message/', logHandler);
 app.all('/app/log', logHandler);
 app.all('/app/log/', logHandler);
+app.all('/app/log/message', logHandler);
+app.all('/app/log/message/', logHandler);
+
+// Telemetrics - hepsini 200 dön, loglama
+app.all('/telemetrics', (req, res) => res.status(200).json({ success: true }));
+app.all('/telemetrics/*', (req, res) => res.status(200).json({ success: true }));
 
 // Server List
 app.all('/server/list', sendServerList);
 app.all('/server/list/', sendServerList);
 app.all('/servers', sendServerList);
+app.all('/servers/', sendServerList);
 
 // Stats
 app.all('/stats/update', statsUpdateHandler);
+app.all('/stats/update/', statsUpdateHandler);
 app.all('/user/stats', userStatsHandler);
 app.all('/user/stats/', userStatsHandler);
 
@@ -592,12 +559,12 @@ app.all('/developer/messages', developerMessagesHandler);
 app.all('/developer/messages/', developerMessagesHandler);
 
 // Tutorial
-app.all('/tutorial/completed', tutorialCompletedHandler);
-app.all('/tutorial/completed/', tutorialCompletedHandler);
+app.all('/tutorial/completed', (req, res) => res.status(200).json({ success: true }));
+app.all('/tutorial/completed/', (req, res) => res.status(200).json({ success: true }));
 
 // Rate app
-app.all('/app/rate', rateAppHandler);
-app.all('/app/rate/', rateAppHandler);
+app.all('/app/rate', (req, res) => res.status(200).json({ success: true }));
+app.all('/app/rate/', (req, res) => res.status(200).json({ success: true }));
 
 // Account link
 app.all('/account/link', accountLinkHandler);
@@ -621,6 +588,7 @@ app.all('/purchase/verify/', purchaseVerificationHandler);
 
 // Logout
 app.all('/logout', (req, res) => res.status(200).json({ success: true }));
+app.all('/logout/', (req, res) => res.status(200).json({ success: true }));
 
 // Health
 app.get('/', (req, res) => res.status(200).json({ status: 'ok', message: 'Backend Running' }));
@@ -628,25 +596,17 @@ app.get('/health', (req, res) => res.status(200).json({ status: 'healthy' }));
 
 // Debug
 app.all('/debug', (req, res) => {
-    res.status(200).json({
-        method: req.method,
-        url: req.url,
-        headers: req.headers,
-        body: req.body
-    });
+    res.status(200).json({ method: req.method, url: req.url, headers: req.headers, body: req.body });
 });
-
 app.all('/debug/sessions', (req, res) => {
-    const deviceSessions = loadData('device_sessions.json', {});
-    const userSessions = loadData('user_sessions.json', {});
     res.status(200).json({
-        deviceSessions: Object.keys(deviceSessions).length,
-        userSessions: Object.keys(userSessions).length,
+        deviceSessions: Object.keys(loadData('device_sessions.json', {})).length,
+        userSessions: Object.keys(loadData('user_sessions.json', {})).length,
         users: Object.keys(loadData('users.json', {})).length
     });
 });
 
-// 404 - tüm bilinmeyen endpoint'leri logla
+// 404
 app.use((req, res) => {
     console.log('[404]', req.method, req.originalUrl);
     res.status(404).json({ error: 'NOT_FOUND', path: req.originalUrl });
@@ -658,8 +618,8 @@ app.listen(PORT, '0.0.0.0', () => {
     console.log('=================================');
     console.log(`PORT: ${PORT}`);
     console.log(`PUBLIC URL: ${PUBLIC_BASE_URL}`);
-    console.log(`Start:  ${PUBLIC_BASE_URL}/start`);
-    console.log(`Login:  ${PUBLIC_BASE_URL}/user/login`);
+    console.log(`Start:   ${PUBLIC_BASE_URL}/start`);
+    console.log(`Login:   ${PUBLIC_BASE_URL}/user/login`);
     console.log(`Servers: ${PUBLIC_BASE_URL}/server/list`);
     console.log('=================================');
 });
