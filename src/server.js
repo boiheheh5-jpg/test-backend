@@ -47,6 +47,20 @@ function generateToken(length) {
 	return crypto.randomBytes(length).toString('hex');
 }
 
+function normalizeBody(req) {
+	if (req.body && typeof req.body === 'object') return req.body;
+
+	if (typeof req.body === 'string') {
+		try {
+			return JSON.parse(req.body);
+		} catch {
+			return {};
+		}
+	}
+
+	return {};
+}
+
 function parseSessionToken(header) {
 	if (!header || !header.startsWith('Bearer ')) return null;
 
@@ -98,58 +112,38 @@ function requireUserSession(req, res, next) {
 	next();
 }
 
-function normalizeBody(req) {
-	if (req.body && typeof req.body === 'object') return req.body;
-
-	if (typeof req.body === 'string') {
-		try {
-			return JSON.parse(req.body);
-		} catch {
-			return {};
-		}
-	}
-
-	return {};
-}
-
-function buildServerListResponse() {
-	const server = {
-		id: 'local-1',
-		name: 'Local Server',
-		region: 'LOCAL',
-		address: '127.0.0.1',
-		host: '127.0.0.1',
-		ip: '127.0.0.1',
-		port: 7777,
-		players: 0,
-		currentPlayers: 0,
-		maxPlayers: 100,
-		maxPlayerCount: 100,
-		ping: 0,
-		online: true
-	};
-
-	return {
-		success: true,
-		count: 1,
-		serverCount: 1,
-		servers: [server],
-		Servers: [server],
-		data: [server]
-	};
-}
-
-function sendServerList(req, res) {
-	console.log('[GET SERVERS]', req.method, req.originalUrl, req.body);
-	res.status(200).json(buildServerListResponse());
-}
-
 app.use((req, res, next) => {
 	console.log('[REQ]', req.method, req.originalUrl);
 	next();
 });
 
 app.use('/assets', express.static(ASSET_DIR));
+
+function buildServerList() {
+	return [
+		{
+			id: 'local-1',
+			name: 'Local Server',
+			region: 'LOCAL',
+			address: '127.0.0.1',
+			host: '127.0.0.1',
+			ip: '127.0.0.1',
+			port: 7777,
+			players: 0,
+			currentPlayers: 0,
+			maxPlayers: 100,
+			maxPlayerCount: 100,
+			ping: 0,
+			online: true
+		}
+	];
+}
+
+function sendServerList(req, res) {
+	console.log('[GET SERVERS BODY]', req.body);
+	res.setHeader('Content-Type', 'application/json; charset=utf-8');
+	res.status(200).send(JSON.stringify(buildServerList()));
+}
 
 function buildStartResponse(body) {
 	const udid = body && body.udid && body.udid !== '-1' ? body.udid : generateToken(16);
@@ -188,15 +182,6 @@ function startHandler(req, res) {
 	console.log('[START BODY]', body);
 	res.status(200).json(buildStartResponse(body));
 }
-
-app.all('/app/start', startHandler);
-app.all('/app/start/', startHandler);
-app.all('/start', startHandler);
-app.all('/start/', startHandler);
-app.all('/StartRequest', startHandler);
-app.all('/StartRequest/', startHandler);
-app.all('/AppStartRequest', startHandler);
-app.all('/AppStartRequest/', startHandler);
 
 function loginHandler(req, res) {
 	const body = normalizeBody(req);
@@ -249,15 +234,24 @@ function loginHandler(req, res) {
 	});
 }
 
-app.all('/login', requireDeviceSession, loginHandler);
-app.all('/login/', requireDeviceSession, loginHandler);
-app.all('/Login', requireDeviceSession, loginHandler);
-app.all('/Login/', requireDeviceSession, loginHandler);
-
 function logHandler(req, res) {
 	console.log('[CLIENT LOG]', normalizeBody(req));
 	res.status(200).json({ success: true, ok: true });
 }
+
+app.all('/app/start', startHandler);
+app.all('/app/start/', startHandler);
+app.all('/start', startHandler);
+app.all('/start/', startHandler);
+app.all('/StartRequest', startHandler);
+app.all('/StartRequest/', startHandler);
+app.all('/AppStartRequest', startHandler);
+app.all('/AppStartRequest/', startHandler);
+
+app.all('/login', requireDeviceSession, loginHandler);
+app.all('/login/', requireDeviceSession, loginHandler);
+app.all('/Login', requireDeviceSession, loginHandler);
+app.all('/Login/', requireDeviceSession, loginHandler);
 
 app.all('/log', logHandler);
 app.all('/log/', logHandler);
