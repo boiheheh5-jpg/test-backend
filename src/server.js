@@ -46,7 +46,9 @@ app.use((req, res, next) => {
 });
 
 app.use('/assets', express.static(ASSET_DIR));
-app.use('/AssetBundles', express.static(ASSET_DIR));
+app.use('/AssetBundles', express.static(
+    path.join(__dirname, 'AssetBundles/mapmetadatas')
+));
 
 // ============ HELPERS ============
 function saveData(filename, data) {
