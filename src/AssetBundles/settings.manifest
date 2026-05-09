@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3802594328
+CRC: 483844251
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b2a89a972880ba8ffd996cf3dcd9626d
+    Hash: dae9236f72029d34780b24556740b957
   TypeTreeHash:
     serializedVersion: 2
     Hash: afdc386febed8e3620c78837d4babd2c
@@ -62,7 +62,7 @@ Assets:
 - Assets/gamedata/bundleresources/settings/CameraSettings.asset
 - Assets/gamedata/bundleresources/settings/MissionSettings.asset
 Dependencies:
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_hud
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_weaponicons
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_touch
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_minimap
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/sprites_hud
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/sprites_weaponicons
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/sprites_touch
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/sprites_minimap

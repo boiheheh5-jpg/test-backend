@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 594559328
+CRC: 3088580976
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b0b771c4e32163e1c7ab2d70173aadf0
+    Hash: 2b5bf6574891cd205a602697da58eae6
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5373d666f558154de0e0c10abcbf25da
@@ -113,8 +113,8 @@ Assets:
 - Assets/gamedata/bundleresources/prefabs/ui/touch/TouchControlCustomization.prefab
 - Assets/gamedata/bundleresources/prefabs/ui/touch/TouchControls.prefab
 Dependencies:
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_menu
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/ui_fonts
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_hud
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_weaponicons
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_touch
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/sprites_menu
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/ui_fonts
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/sprites_hud
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/sprites_weaponicons
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/sprites_touch

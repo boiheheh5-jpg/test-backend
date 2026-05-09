@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 640351932
+CRC: 364004816
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 0936b0a931aaf2bef4e34eb736643e0c
+    Hash: 424e72df5918667e62d50f2cde4d741c
   TypeTreeHash:
     serializedVersion: 2
     Hash: ce604d0a60fcb30b71280d4eed953db7
@@ -148,8 +148,8 @@ ClassTypes:
 Assets:
 - Assets/gamedata/bundleresources/settings/DefuseGameModeSettings.asset
 Dependencies:
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_menu
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/ui_fonts
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_hud
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_weaponicons
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_minimap
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/sprites_menu
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/ui_fonts
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/sprites_hud
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/sprites_weaponicons
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/sprites_minimap

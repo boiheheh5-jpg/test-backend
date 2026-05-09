@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2336745886
+CRC: 3167058207
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ba65fb02e12b080fe17829ef551a8491
+    Hash: 02b97eaeb6487b276f61edd5a7946829
   TypeTreeHash:
     serializedVersion: 2
     Hash: 7e4e8e34933d29ccb82ea85fda18fef5
@@ -106,6 +106,6 @@ ClassTypes:
 Assets:
 - Assets/gamedata/bundleresources/settings/GunGameGameModeSettings.asset
 Dependencies:
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_menu
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/ui_fonts
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_hud
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/sprites_menu
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/ui_fonts
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/sprites_hud

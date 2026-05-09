@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1454617768
+CRC: 410692769
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: c700468c50dbf79f77e625bd5300bd89
+    Hash: 039d4b25070944c9066bb7c28e495943
   TypeTreeHash:
     serializedVersion: 2
     Hash: 215f8db2267d8435398499fb9ac4fbea
@@ -116,6 +116,6 @@ Assets:
 - Assets/gamedata/bundleresources/prefabs/game/SmokeOverlay.prefab
 - Assets/gamedata/bundleresources/prefabs/game/C4_Planted.prefab
 Dependencies:
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/shaders
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/physicsmaterialdefs
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/effects
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/shaders
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/physicsmaterialdefs
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/effects

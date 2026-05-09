@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 319375460
+CRC: 1172321235
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 57ed0e5e3ba2b25a626e6c2cdc6dbe40
+    Hash: 2a8b80913455cf0b6dcd9d5f97615380
   TypeTreeHash:
     serializedVersion: 2
     Hash: b663e7065ec5998bfdf3c750728a52c0
@@ -86,6 +86,6 @@ Assets:
 - Assets/gamedata/bundleresources/settings/weapondefs/C4.asset
 - Assets/gamedata/bundleresources/settings/weapondefs/AK47.asset
 Dependencies:
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/shaders
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/characteranimationsets
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_weaponicons
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/shaders
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/characteranimationsets
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/sprites_weaponicons

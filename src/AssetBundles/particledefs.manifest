@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3440377911
+CRC: 198515240
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 5b76856f0d29a2bcf6431f8dd703fe81
+    Hash: 240efcd40f9ce3bec9c3cb92bef0c75d
   TypeTreeHash:
     serializedVersion: 2
     Hash: a8e56f94bffa3ae769155f22275174dc
@@ -53,4 +53,4 @@ Assets:
 - Assets/gamedata/bundleresources/settings/particledefs/BulletImpact_Kevlar.asset
 - Assets/gamedata/bundleresources/settings/particledefs/Shell_Shotgun_ThirdPerson.asset
 Dependencies:
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/shaders
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/shaders

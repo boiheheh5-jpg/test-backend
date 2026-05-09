@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2568352449
+CRC: 985668736
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 0cd99ff2198a7ad24c51997a04e80e64
+    Hash: 88d00b425e2a0c3a83de8e018cefa1e0
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4a7625ed2834f3b4062f71f12c0494b8
@@ -374,7 +374,7 @@ Assets:
 - Assets/gamedata/bundleresources/settings/weaponskindefs/MP5-Coil.asset
 - Assets/gamedata/bundleresources/settings/weaponskindefs/P90-Lotus.asset
 Dependencies:
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/shaders
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/weapondefs
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/characteranimationsets
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_weaponicons
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/shaders
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/weapondefs
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/characteranimationsets
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/sprites_weaponicons

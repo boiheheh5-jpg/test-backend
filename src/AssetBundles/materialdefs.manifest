@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 332999363
+CRC: 809356507
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 061c2ac1f00d347adc7a0b96361d1b8a
+    Hash: 764ff385cbefa841ea9977c46f8e4205
   TypeTreeHash:
     serializedVersion: 2
     Hash: 42e4cd04fdf268c9ce0c5899944ae257
@@ -46,5 +46,5 @@ Assets:
 - Assets/gamedata/bundleresources/settings/materialdefs/Metal.asset
 - Assets/gamedata/bundleresources/settings/materialdefs/Rubber.asset
 Dependencies:
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/physicsmaterialdefs
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/particledefs
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/physicsmaterialdefs
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/particledefs

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 129198588
+CRC: 2901316790
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 157619ebc0d63043acde7fdb87e647ac
+    Hash: 35fca8628a98bd9939670c40ce387477
   TypeTreeHash:
     serializedVersion: 2
     Hash: a7b87124ada8d5fd52b429cdb76d80b4
@@ -44,4 +44,4 @@ Assets:
 - Assets/gamedata/bundleresources/prefabs/effects/Decal_Explosion.prefab
 - Assets/gamedata/bundleresources/prefabs/effects/Decal_Blood.prefab
 Dependencies:
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/shaders
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/shaders

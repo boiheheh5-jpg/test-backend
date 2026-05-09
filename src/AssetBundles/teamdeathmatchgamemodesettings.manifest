@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1812271175
+CRC: 3579984088
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 377c56bef4c149876b94b80404385a44
+    Hash: 99df5ab00da5e25008b2a4e55f7c8cee
   TypeTreeHash:
     serializedVersion: 2
     Hash: 85f01385d20775dfe45788aecbe1b7d0
@@ -128,7 +128,7 @@ ClassTypes:
 Assets:
 - Assets/gamedata/bundleresources/settings/TeamDeathMatchGameModeSettings.asset
 Dependencies:
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_menu
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/ui_fonts
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_hud
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/sprites_weaponicons
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/sprites_menu
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/ui_fonts
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/sprites_hud
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/sprites_weaponicons

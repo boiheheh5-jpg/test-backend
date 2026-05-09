@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2048716521
+CRC: 3935088499
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 3a6b413a654aec526238e22c90b13248
+    Hash: 7cd5c7ed4f5da2bc16ac22ef8c7fd790
   TypeTreeHash:
     serializedVersion: 2
     Hash: bc193d49e7d16f71ac778acf3c7bfc27
@@ -28,4 +28,4 @@ ClassTypes:
 Assets:
 - Assets/gamedata/graphics/characters/extras/christmas/santa_hat-character.prefab
 Dependencies:
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/shaders
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/shaders

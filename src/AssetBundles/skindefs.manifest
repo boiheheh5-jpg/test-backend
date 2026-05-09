@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3327711818
+CRC: 483827603
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 40fd6f41f67aca6abfc3457b6ec81093
+    Hash: 7b4f28014fea68899c576561b638d4ce
   TypeTreeHash:
     serializedVersion: 2
     Hash: c0f91fb7464eed614606107d1aa378a8
@@ -37,4 +37,4 @@ Assets:
 - Assets/gamedata/bundleresources/settings/characterskindefs/Gign.asset
 - Assets/gamedata/bundleresources/settings/characterskindefs/Bomber.asset
 Dependencies:
-- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Android/shaders
+- /home/rod/Desktop/COPSUNITY/ExportedProject/Assets/StreamingAssets/AssetBundles/Standalone/shaders
