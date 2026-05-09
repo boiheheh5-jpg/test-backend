@@ -205,3 +205,32 @@ AssetBundleManifest:
       Dependencies:
         Dependency_0: shaders
         Dependency_1: physicsmaterialdefs
+        Dependency_4: audio_ui
+        Dependency_5: sprites_hud
+        Dependency_6: sprites_weaponicons
+--
+      Name: audio_ui
+      Dependencies: {}
+    Info_22:
+--
+      Name: audio_character
+      Dependencies: {}
+    Info_27:
+--
+      Name: audio_weapons
+      Dependencies: {}
+    Info_29:
+--
+      Name: audio_grenade
+      Dependencies: {}
+    Info_40:
+      Name: audio_bomb
+      Dependencies: {}
+    Info_41:
+      Name: audio_radio
+      Dependencies: {}
+    Info_42:
+--
+      Name: audio_gameui
+      Dependencies: {}
+    Info_47:
