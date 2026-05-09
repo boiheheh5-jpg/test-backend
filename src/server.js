@@ -122,43 +122,31 @@ app.use('/assets', express.static(ASSET_DIR));
 function buildServerList() {
 	return [
 		{
-			id: 'local-1',
-			name: 'Local Server',
-			region: 'LOCAL',
-			address: '127.0.0.1',
-			host: '127.0.0.1',
-			ip: '127.0.0.1',
-			port: 7777,
-			players: 0,
-			currentPlayers: 0,
-			maxPlayers: 100,
-			maxPlayerCount: 100,
-			ping: 0,
-			online: true
+			Id: 'local-1',
+			Name: 'Local Server',
+			Region: 'LOCAL',
+			Address: '127.0.0.1',
+			Host: '127.0.0.1',
+			IP: '127.0.0.1',
+			Port: 7777,
+			Players: 0,
+			CurrentPlayers: 0,
+			MaxPlayers: 100,
+			MaxPlayerCount: 100,
+			Ping: 0,
+			Online: true
 		}
 	];
 }
 
-function buildServerListResponse() {
-	const servers = buildServerList();
-	return {
-		success: true,
-		count: servers.length,
-		serverCount: servers.length,
-		servers: servers,
-		Servers: servers,
-		data: servers
-	};
-}
-
 function sendServerList(req, res) {
-	console.log('[SERVERS] method=', req.method);
-	console.log('[SERVERS] url=', req.originalUrl);
-	console.log('[SERVERS] content-type=', req.headers['content-type']);
-	console.log('[SERVERS] body=', req.body);
+	console.log('[SERVER LIST] method=', req.method);
+	console.log('[SERVER LIST] url=', req.originalUrl);
+	console.log('[SERVER LIST] content-type=', req.headers['content-type']);
+	console.log('[SERVER LIST] body=', req.body);
 
 	res.setHeader('Content-Type', 'application/json; charset=utf-8');
-	res.status(200).send(JSON.stringify(buildServerListResponse()));
+	res.status(200).send(JSON.stringify(buildServerList()));
 }
 
 function buildStartResponse(body) {
@@ -282,6 +270,8 @@ app.all('/app/log/message/', logHandler);
 app.all('/LogMessageRequest', logHandler);
 app.all('/LogMessageRequest/', logHandler);
 
+app.all('/server/list', sendServerList);
+app.all('/server/list/', sendServerList);
 app.all('/servers', sendServerList);
 app.all('/GetServersRequest', sendServerList);
 app.all('/GetServersRequest/', sendServerList);
