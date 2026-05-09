@@ -94,14 +94,12 @@ function parseSessionToken(header) {
 
 function requireDeviceSession(req, res, next) {
     const session = parseSessionToken(req.headers.authorization);
-    console.log('[REQUIRE DEVICE SESSION]', session);
+    console.log('[REQUIRE DEVICE SESSION]', session ? 'Session found' : 'No session');
     
     if (!session || !session.deviceSessionToken) {
         return res.status(401).json({ error: 'INVALID_DEVICE_SESSION' });
     }
     const sessions = loadData('device_sessions.json', {});
-    console.log('[DEVICE SESSIONS]', Object.keys(sessions));
-    
     if (!sessions[session.deviceSessionToken]) {
         return res.status(401).json({ error: 'DEVICE_SESSION_NOT_FOUND' });
     }
@@ -110,7 +108,11 @@ function requireDeviceSession(req, res, next) {
     next();
 }
 
-function buildStartResponse(body) {
+// ============ START HANDLER - StartRequest.Return yapısına TAM UYUMLU ============
+function startHandler(req, res) {
+    console.log('[START] Request received');
+    const body = normalizeBody(req);
+    
     const udid = body && body.udid && body.udid !== '-1' ? body.udid : generateToken(16);
     const deviceSessionToken = generateToken(32);
     const deviceSessionID = Math.floor(Math.random() * 999999);
@@ -120,43 +122,39 @@ function buildStartResponse(body) {
         udid: udid,
         deviceSessionID: deviceSessionID,
         devicePlatform: body.platform || body.devicePlatform || 'unknown',
-        deviceModel: body.model || '',
-        deviceOS: body.os || '',
+        deviceModel: body.model || body.deviceModel || '',
+        deviceOS: body.os || body.deviceOS || '',
+        deviceId: body.deviceId || body.deviceid || '',
+        ram: body.ram || 0,
+        vram: body.vram || 0,
+        appVersion: body.appversion || body.appVersion || '1.0.0',
         createdAt: Date.now()
     };
     saveData('device_sessions.json', deviceSessions);
 
+    // StartRequest.Return yapısına TAM UYUM
     const response = {
         udid: udid,
         deviceSessionID: deviceSessionID,
         deviceSessionToken: deviceSessionToken,
         assetBundleServerURLs: [`${PUBLIC_BASE_URL}/assets/`],
         hubAddress: PUBLIC_BASE_URL.replace(/^https?:\/\//, ''),
-        account: 0,
-        loginType: 0,
-        tutorialCompleted: 0,
-        tutorialStage: 0,
+        account: 0,  // LoginType.None = 0
+        tutorialCompleted: 0,  // TutorialStage.None = 0
         config: {
             version: "1.0.0",
-            assetVersion: "1"
+            assetVersion: "1",
+            enabled: true
         }
     };
     
-    console.log('[START RESPONSE]', JSON.stringify(response).substring(0, 200));
-    return response;
-}
-
-function startHandler(req, res) {
-    console.log('[START] Request received');
-    const body = normalizeBody(req);
-    const response = buildStartResponse(body);
+    console.log('[START RESPONSE]', JSON.stringify(response));
     res.status(200).json(response);
 }
 
-// ============ LOGIN HANDLER - TAMAMEN DÜZELTİLDİ ============
+// ============ LOGIN HANDLER ============
 function loginHandler(req, res) {
     console.log('[LOGIN] Request received');
-    console.log('[LOGIN] Device Info:', req.deviceInfo);
     
     const body = normalizeBody(req);
     const externalID = body.externalID || body.ExternalID || (req.deviceInfo && req.deviceInfo.udid) || generateToken(16);
@@ -210,10 +208,7 @@ function loginHandler(req, res) {
     userSessions[userSessionToken] = { userID: user.userID, createdAt: Date.now() };
     saveData('user_sessions.json', userSessions);
 
-    // Authorization token oluştur
-    const authToken = Buffer.from(`${userSessionID}:${userSessionToken}:${req.deviceInfo.deviceSessionID}:${req.session.deviceSessionToken}`).toString('base64');
-
-    // ============ TAM VE EKSİKSİZ LOGIN RESPONSE ============
+    // LoginResponse yapısı
     const loginResponse = {
         accountFound: false,
         userSessionToken: userSessionToken,
@@ -303,10 +298,6 @@ function loginHandler(req, res) {
     };
 
     console.log('[LOGIN SUCCESS]', user.name, 'ID:', user.userID);
-    console.log('[AUTH TOKEN]', authToken.substring(0, 50) + '...');
-    
-    // Authorization header'ı da ekleyerek gönder
-    res.setHeader('Authorization', `Bearer ${authToken}`);
     res.status(200).json(loginResponse);
 }
 
@@ -332,9 +323,7 @@ function sendServerList(req, res) {
         MaxPlayerCount: 100,
         Ping: 0,
         Online: true,
-        Status: 'Online',
-        GameMode: 'Deathmatch',
-        Map: 'Default'
+        Status: 'Online'
     }];
     res.status(200).json(servers);
 }
@@ -362,10 +351,6 @@ function statsUpdateHandler(req, res) {
         user.casualKills = (user.casualKills || 0) + (parseInt(body.casualKills) || 0);
         user.casualDeaths = (user.casualDeaths || 0) + (parseInt(body.casualDeaths) || 0);
         user.casualAssists = (user.casualAssists || 0) + (parseInt(body.casualAssists) || 0);
-        if (body.rank) user.rank = parseInt(body.rank);
-        if (body.stars) user.stars = parseInt(body.stars);
-        if (body.rating) user.rating = parseInt(body.rating);
-        if (body.placementMatchesLeft) user.placementMatchesLeft = parseInt(body.placementMatchesLeft);
         saveData('users.json', users);
         console.log('[STATS UPDATED]', user.name);
     }
@@ -374,7 +359,7 @@ function statsUpdateHandler(req, res) {
 
 // ============ ENDPOINTS ============
 
-// Start - ÖNCE BUNU ÇAĞIR!
+// Start - /start endpoint (Unity'nin beklediği)
 app.all('/start', startHandler);
 app.all('/start/', startHandler);
 app.all('/StartRequest', startHandler);
@@ -392,15 +377,13 @@ app.all('*start*', (req, res, next) => {
     }
 });
 
-// Login (Start'dan SONRA çağırılmalı)
+// Login
 app.all('/login', requireDeviceSession, loginHandler);
 app.all('/login/', requireDeviceSession, loginHandler);
 app.all('/Login', requireDeviceSession, loginHandler);
-app.all('/Login/', requireDeviceSession, loginHandler);
 
 // Log
 app.all('/log', logHandler);
-app.all('/log/', logHandler);
 app.all('/logmessage', logHandler);
 app.all('/LogMessageRequest', logHandler);
 app.all('*log*', logHandler);
@@ -417,15 +400,12 @@ app.all('/stats', (req, res) => res.status(200).json({ success: true }));
 
 // Logout
 app.all('/logout', (req, res) => res.status(200).json({ success: true }));
-app.all('/user/logout', (req, res) => res.status(200).json({ success: true }));
 
 // Tutorial
 app.all('/tutorial/completed', (req, res) => res.status(200).json({ success: true }));
-app.all('/tutorial/status', (req, res) => res.status(200).json({ completed: false, stage: 0 }));
 
 // Credits
 app.all('/user/credits', (req, res) => res.status(200).json({ Credits: 10000 }));
-app.all('/credits', (req, res) => res.status(200).json({ credits: 10000 }));
 
 // Skins
 app.all('/skin/unpack', (req, res) => {
@@ -433,60 +413,14 @@ app.all('/skin/unpack', (req, res) => {
         success: true, 
         skinID: 1001, 
         packsLeft: 4,
-        alreadyOwned: false,
-        tokensGained: 0
+        alreadyOwned: false
     });
-});
-app.all('/skinpack/purchase', (req, res) => {
-    res.status(200).json({ CurrentSkinPacks: 4, CurrentCredits: 9500 });
-});
-app.all('/skin/purchase', (req, res) => {
-    res.status(200).json({ success: true, TokensLeft: 90, SkinBought: 1001 });
-});
-
-// Missions
-app.all('/mission/reward', (req, res) => {
-    res.status(200).json({ rewarded: true, currentCredits: 10000 });
-});
-app.all('/mission/discard', (req, res) => {
-    res.status(200).json({ discardedMissionID: 1, newMission: null });
 });
 
 // Username
 app.all('/username/check', (req, res) => {
     res.status(200).json({ username: req.body.username || "Player", available: true });
 });
-app.all('/username/change', (req, res) => {
-    res.status(200).json({ username: req.body.username, CurrentCredits: 9500 });
-});
-
-// Products
-app.all('/products', (req, res) => res.status(200).json({ products: [] }));
-app.all('/products/get', (req, res) => res.status(200).json({ products: [] }));
-
-// Account link
-app.all('/account/link', (req, res) => res.status(200).json({ accountFound: false }));
-app.all('/account/confirm', (req, res) => res.status(200).json({ newSession: false }));
-
-// Leaderboard
-app.all('/leaderboard', (req, res) => res.status(200).json({ entries: [] }));
-app.all('/leaderboards', (req, res) => res.status(200).json({ entries: [] }));
-
-// Developer messages
-app.all('/developer/messages', (req, res) => res.status(200).json({ messages: [] }));
-
-// Room
-app.all('/rooms', (req, res) => res.status(200).json([]));
-app.all('/rooms/get', (req, res) => res.status(200).json([]));
-app.all('/room/user', (req, res) => res.status(200).json(null));
-
-// Rate app
-app.all('/rate', (req, res) => res.status(200).json({ success: true }));
-app.all('/rateapp', (req, res) => res.status(200).json({ success: true }));
-
-// User profile
-app.all('/user/profile', (req, res) => res.status(200).json({ success: true }));
-app.all('/profile', (req, res) => res.status(200).json({ success: true }));
 
 // Health
 app.get('/', (req, res) => res.status(200).json({ status: 'ok', message: 'Backend Running on Railway' }));
@@ -518,19 +452,15 @@ app.use((req, res) => {
     res.status(404).json({ error: 'NOT_FOUND', path: req.originalUrl });
 });
 
-// Error handler
-app.use((err, req, res, next) => {
-    console.error('[ERROR]', err);
-    res.status(500).json({ error: 'INTERNAL_SERVER_ERROR', message: err.message });
-});
-
 // Server start
 app.listen(PORT, '0.0.0.0', () => {
     console.log('=================================');
-    console.log('RAILWAY BACKEND - FIXED VERSION');
+    console.log('RAILWAY BACKEND - COMPLETE');
     console.log('=================================');
     console.log(`PORT: ${PORT}`);
     console.log(`PUBLIC URL: ${PUBLIC_BASE_URL}`);
-    console.log(`DATA DIR: ${DATA_DIR}`);
+    console.log(`Start Endpoint: ${PUBLIC_BASE_URL}/start`);
+    console.log(`Login Endpoint: ${PUBLIC_BASE_URL}/login`);
+    console.log(`Servers Endpoint: ${PUBLIC_BASE_URL}/servers`);
     console.log('=================================');
 });
