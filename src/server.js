@@ -8,20 +8,21 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const DATA_DIR = path.join(__dirname, 'data');
 const ASSET_DIR = path.join(__dirname, 'AssetBundles');
+const PHOTON_SERVER_ADDR = process.env.PHOTON_SERVER_ADDR || '127.0.0.1:5055';
 
-const PUBLIC_BASE_URL = process.env.PUBLIC_BASE_URL || 
-                       (process.env.RAILWAY_PUBLIC_DOMAIN ? 
-                       `https://${process.env.RAILWAY_PUBLIC_DOMAIN}` : 
-                       (process.env.RAILWAY_STATIC_URL ? 
-                       `https://${process.env.RAILWAY_STATIC_URL}` : 
-                       'http://localhost:3000'));
+const PUBLIC_BASE_URL =
+    process.env.PUBLIC_BASE_URL ||
+    (process.env.RAILWAY_PUBLIC_DOMAIN
+        ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`
+        : (process.env.RAILWAY_STATIC_URL
+            ? `https://${process.env.RAILWAY_STATIC_URL}`
+            : 'http://localhost:3000'));
 
 console.log('[CONFIG] PUBLIC_BASE_URL:', PUBLIC_BASE_URL);
 
 if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 if (!fs.existsSync(ASSET_DIR)) fs.mkdirSync(ASSET_DIR, { recursive: true });
 
-// CORS
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept, X-Requested-With, X-ApiVersion');
@@ -46,11 +47,8 @@ app.use((req, res, next) => {
 });
 
 app.use('/assets', express.static(ASSET_DIR));
-app.use('/AssetBundles', express.static(
-    path.join(__dirname, 'AssetBundles/mapmetadatas')
-));
+app.use('/AssetBundles', express.static(path.join(__dirname, 'AssetBundles/mapmetadatas')));
 
-// ============ HELPERS ============
 function saveData(filename, data) {
     fs.writeFileSync(path.join(DATA_DIR, filename), JSON.stringify(data, null, 2));
 }
@@ -84,9 +82,9 @@ function parseSessionToken(header) {
         const decoded = Buffer.from(raw, 'base64').toString('utf8');
         const parts = decoded.split(':');
         return {
-            userSessionID:     parts[0] || null,
-            userSessionToken:  parts[1] || null,
-            deviceSessionID:   parts[2] || null,
+            userSessionID: parts[0] || null,
+            userSessionToken: parts[1] || null,
+            deviceSessionID: parts[2] || null,
             deviceSessionToken: parts[3] || null
         };
     } catch (error) {
@@ -119,7 +117,6 @@ function getUserFromSession(req) {
     return users[sessions[session.userSessionToken].userID] || null;
 }
 
-// ============ START ============
 function startHandler(req, res) {
     console.log('[START] Request received');
     const body = normalizeBody(req);
@@ -162,7 +159,6 @@ function startHandler(req, res) {
     res.status(200).json(response);
 }
 
-// ============ LOGIN ============
 function loginHandler(req, res) {
     console.log('[LOGIN] Request received');
 
@@ -305,42 +301,33 @@ function loginHandler(req, res) {
     res.status(200).json(loginResponse);
 }
 
-// ============ LOG ============
 function logHandler(req, res) {
     const body = normalizeBody(req);
     console.log('[CLIENT LOG]', JSON.stringify(body).substring(0, 200));
     res.status(200).json({ success: true });
 }
 
-// ============ SERVER LIST ============
 function sendServerList(req, res) {
     console.log('[SERVER LIST] Request received');
-    const servers = [{
-        Id: 'railway-1',
-        Name: 'Railway Server',
-        Region: 'EUROPE',
-        Address: PUBLIC_BASE_URL.replace(/^https?:\/\//, '').split(':')[0],
-        Host: PUBLIC_BASE_URL.replace(/^https?:\/\//, '').split(':')[0],
-        IP: PUBLIC_BASE_URL.replace(/^https?:\/\//, '').split(':')[0],
-        Port: 7777,
-        Players: 0,
-        CurrentPlayers: 0,
-        MaxPlayers: 100,
-        MaxPlayerCount: 100,
-        Ping: 0,
-        Online: true,
-        Status: 'Online'
-    }];
+    const servers = [
+        {
+            id: 1,
+            name: 'EU',
+            addr: PHOTON_SERVER_ADDR,
+            region: 'EU',
+            players: 0,
+            maxPlayers: 100,
+            online: true
+        }
+    ];
     res.status(200).json(servers);
 }
 
-// ============ USER CREDITS ============
 function userCreditsHandler(req, res) {
     const user = getUserFromSession(req);
     res.status(200).json({ Credits: user ? (user.credits || 0) : 10000 });
 }
 
-// ============ USER STATS ============
 function userStatsHandler(req, res) {
     const user = getUserFromSession(req);
     res.status(200).json({
@@ -367,7 +354,6 @@ function userStatsHandler(req, res) {
     });
 }
 
-// ============ STATS UPDATE ============
 function statsUpdateHandler(req, res) {
     const body = normalizeBody(req);
     const user = getUserFromSession(req);
@@ -387,7 +373,6 @@ function statsUpdateHandler(req, res) {
     res.status(200).json({ success: true });
 }
 
-// ============ CHECK USERNAME ============
 function checkUsernameHandler(req, res) {
     const body = normalizeBody(req);
     const username = body.username || body.Username || 'Player';
@@ -396,7 +381,6 @@ function checkUsernameHandler(req, res) {
     res.status(200).json({ username, available: !taken });
 }
 
-// ============ CHANGE USERNAME ============
 function changeUsernameHandler(req, res) {
     const body = normalizeBody(req);
     const username = body.username || body.Username || 'Player';
@@ -409,7 +393,6 @@ function changeUsernameHandler(req, res) {
     res.status(200).json({ username });
 }
 
-// ============ PURCHASE NAME CHANGE ============
 function purchaseNameChangeHandler(req, res) {
     const body = normalizeBody(req);
     const username = body.username || body.Username || 'Player';
@@ -428,12 +411,10 @@ function purchaseNameChangeHandler(req, res) {
     res.status(200).json({ username, CurrentCredits: credits });
 }
 
-// ============ SKIN UNPACK ============
 function skinUnpackHandler(req, res) {
     res.status(200).json({ skinID: 1001, packsLeft: 4, alreadyOwned: false });
 }
 
-// ============ PURCHASE SKIN ============
 function purchaseSkinHandler(req, res) {
     const body = normalizeBody(req);
     res.status(200).json({
@@ -442,63 +423,30 @@ function purchaseSkinHandler(req, res) {
     });
 }
 
-// ============ PURCHASE SKIN PACK ============
 function purchaseSkinPackHandler(req, res) {
     res.status(200).json({ CurrentSkinPacks: 5, CurrentCredits: 8000 });
 }
 
-// ============ ATTACH / DETACH WEAPON SKIN ============
 function attachWeaponSkinHandler(req, res) { res.status(200).json(true); }
 function detachWeaponSkinHandler(req, res) { res.status(200).json(true); }
-
-// ============ GET PRODUCTS ============
 function getProductsHandler(req, res) { res.status(200).json([]); }
-
-// ============ LEADERBOARD ============
 function leaderboardHandler(req, res) { res.status(200).json([]); }
-
-// ============ DEVELOPER MESSAGES ============
 function developerMessagesHandler(req, res) { res.status(200).json({ messages: [] }); }
-
-// ============ REWARD MISSION ============
-function rewardMissionHandler(req, res) {
-    res.status(200).json({ rewarded: true, currentCredits: 10000 });
-}
-
-// ============ DISCARD MISSION ============
-function discardMissionHandler(req, res) {
-    res.status(200).json({ discardedMissionID: 0, newMission: null });
-}
-
-// ============ GET ROOMS ============
+function rewardMissionHandler(req, res) { res.status(200).json({ rewarded: true, currentCredits: 10000 }); }
+function discardMissionHandler(req, res) { res.status(200).json({ discardedMissionID: 0, newMission: null }); }
 function getRoomsHandler(req, res) { res.status(200).json([]); }
+function purchaseVerificationHandler(req, res) { res.status(200).json({ paymentCompleted: true, skinPacks: 1, credits: 0 }); }
+function accountLinkHandler(req, res) { res.status(200).json({ accountFound: false, nameChange: false }); }
+function accountLinkConfirmationHandler(req, res) { res.status(200).json({ newSession: false, nameChange: false }); }
 
-// ============ PURCHASE VERIFICATION ============
-function purchaseVerificationHandler(req, res) {
-    res.status(200).json({ paymentCompleted: true, skinPacks: 1, credits: 0 });
-}
-
-// ============ ACCOUNT LINK ============
-function accountLinkHandler(req, res) {
-    res.status(200).json({ accountFound: false, nameChange: false });
-}
-function accountLinkConfirmationHandler(req, res) {
-    res.status(200).json({ newSession: false, nameChange: false });
-}
-
-// ============ ENDPOINTS ============
-
-// Start
 app.all('/start', startHandler);
 app.all('/start/', startHandler);
 
-// Login
 app.all('/user/login', requireDeviceSession, loginHandler);
 app.all('/user/login/', requireDeviceSession, loginHandler);
 app.all('/login', requireDeviceSession, loginHandler);
 app.all('/login/', requireDeviceSession, loginHandler);
 
-// Log
 app.all('/log', logHandler);
 app.all('/log/', logHandler);
 app.all('/logmessage', logHandler);
@@ -508,27 +456,22 @@ app.all('/app/log/', logHandler);
 app.all('/app/log/message', logHandler);
 app.all('/app/log/message/', logHandler);
 
-// Telemetrics - hepsini 200 dön, loglama
 app.all('/telemetrics', (req, res) => res.status(200).json({ success: true }));
 app.all('/telemetrics/*', (req, res) => res.status(200).json({ success: true }));
 
-// Server List
 app.all('/server/list', sendServerList);
 app.all('/server/list/', sendServerList);
 app.all('/servers', sendServerList);
 app.all('/servers/', sendServerList);
 
-// Stats
 app.all('/stats/update', statsUpdateHandler);
 app.all('/stats/update/', statsUpdateHandler);
 app.all('/user/stats', userStatsHandler);
 app.all('/user/stats/', userStatsHandler);
 
-// Credits
 app.all('/user/credits', userCreditsHandler);
 app.all('/user/credits/', userCreditsHandler);
 
-// Username
 app.all('/username/check', checkUsernameHandler);
 app.all('/username/check/', checkUsernameHandler);
 app.all('/user/username', changeUsernameHandler);
@@ -536,7 +479,6 @@ app.all('/user/username/', changeUsernameHandler);
 app.all('/user/username/purchase', purchaseNameChangeHandler);
 app.all('/user/username/purchase/', purchaseNameChangeHandler);
 
-// Skins
 app.all('/skin/unpack', skinUnpackHandler);
 app.all('/skin/unpack/', skinUnpackHandler);
 app.all('/skin/purchase', purchaseSkinHandler);
@@ -548,58 +490,47 @@ app.all('/skin/attach/', attachWeaponSkinHandler);
 app.all('/skin/detach', detachWeaponSkinHandler);
 app.all('/skin/detach/', detachWeaponSkinHandler);
 
-// Products
 app.all('/products', getProductsHandler);
 app.all('/products/', getProductsHandler);
 
-// Leaderboard
 app.all('/leaderboard', leaderboardHandler);
 app.all('/leaderboard/', leaderboardHandler);
 
-// Developer messages
 app.all('/developer/messages', developerMessagesHandler);
 app.all('/developer/messages/', developerMessagesHandler);
 
-// Tutorial
 app.all('/tutorial/completed', (req, res) => res.status(200).json({ success: true }));
 app.all('/tutorial/completed/', (req, res) => res.status(200).json({ success: true }));
 
-// Rate app
 app.all('/app/rate', (req, res) => res.status(200).json({ success: true }));
 app.all('/app/rate/', (req, res) => res.status(200).json({ success: true }));
 
-// Account link
 app.all('/account/link', accountLinkHandler);
 app.all('/account/link/', accountLinkHandler);
 app.all('/account/link/confirm', accountLinkConfirmationHandler);
 app.all('/account/link/confirm/', accountLinkConfirmationHandler);
 
-// Missions
 app.all('/mission/reward', rewardMissionHandler);
 app.all('/mission/reward/', rewardMissionHandler);
 app.all('/mission/discard', discardMissionHandler);
 app.all('/mission/discard/', discardMissionHandler);
 
-// Rooms
 app.all('/room/list', getRoomsHandler);
 app.all('/room/list/', getRoomsHandler);
 
-// Purchase verification
 app.all('/purchase/verify', purchaseVerificationHandler);
 app.all('/purchase/verify/', purchaseVerificationHandler);
 
-// Logout
 app.all('/logout', (req, res) => res.status(200).json({ success: true }));
 app.all('/logout/', (req, res) => res.status(200).json({ success: true }));
 
-// Health
 app.get('/', (req, res) => res.status(200).json({ status: 'ok', message: 'Backend Running' }));
 app.get('/health', (req, res) => res.status(200).json({ status: 'healthy' }));
 
-// Debug
 app.all('/debug', (req, res) => {
     res.status(200).json({ method: req.method, url: req.url, headers: req.headers, body: req.body });
 });
+
 app.all('/debug/sessions', (req, res) => {
     res.status(200).json({
         deviceSessions: Object.keys(loadData('device_sessions.json', {})).length,
@@ -608,7 +539,6 @@ app.all('/debug/sessions', (req, res) => {
     });
 });
 
-// 404
 app.use((req, res) => {
     console.log('[404]', req.method, req.originalUrl);
     res.status(404).json({ error: 'NOT_FOUND', path: req.originalUrl });
@@ -623,5 +553,6 @@ app.listen(PORT, '0.0.0.0', () => {
     console.log(`Start:   ${PUBLIC_BASE_URL}/start`);
     console.log(`Login:   ${PUBLIC_BASE_URL}/user/login`);
     console.log(`Servers: ${PUBLIC_BASE_URL}/server/list`);
+    console.log(`Photon:  ${PHOTON_SERVER_ADDR}`);
     console.log('=================================');
 });
