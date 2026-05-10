@@ -263,8 +263,8 @@ function loginHandler(req, res) {
                         assists: user.assists || 0
                     },
                     stars: user.stars || 0,
-                    rank: user.rank || 1,
-                    rating: user.rating || 1200,
+                    rank: user.rank || 9,
+                    rating: user.rating || 9999,
                     percentile: user.percentile || 0,
                     currentStreak: user.currentStreak || 0,
                     placementMatchesLeft: user.placementMatchesLeft || 10
