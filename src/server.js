@@ -3,7 +3,6 @@ const url = require('url');
 
 const PORT = process.env.PORT || 3000;
 
-// Helper
 function respond(res, statusCode, data) {
   const body = JSON.stringify(data);
   res.writeHead(statusCode, {
@@ -32,7 +31,6 @@ const server = http.createServer((req, res) => {
 
   console.log(`[${method}] ${path}`);
 
-  // CORS preflight
   if (method === 'OPTIONS') {
     res.writeHead(204, {
       'Access-Control-Allow-Origin': '*',
@@ -43,7 +41,6 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // ── POST /app/start/ ───────────────────────────────────────────────────────
   if (path === '/app/start/' && method === 'POST') {
     parseBody(req, body => {
       console.log('  StartRequest body:', body);
@@ -51,25 +48,23 @@ const server = http.createServer((req, res) => {
         udid: body.udid && body.udid !== '-1' ? body.udid : 'mock-udid-' + Date.now(),
         deviceSessionToken: 'mock_device_token_' + Math.random().toString(36).slice(2),
         deviceSessionID: 1,
-        account: 0,               // 0 = Guest (LoginType enum)
+        account: 0,
         assetBundleServerURLs: [],
         hubAddress: '',
-        tutorialCompleted: 2,     // TutorialStage.Completed
+        tutorialCompleted: 2,
         config: {}
       });
     });
     return;
   }
 
-  // ── GET /app/servers/ ──────────────────────────────────────────────────────
-  if (path.includes('/server') && method === 'GET') {
+  if (path.includes('/server') && (method === 'GET' || method === 'POST')) {
     respond(res, 200, [
       { id: 1, name: 'EU', addr: 'eu.ms.exitgames.com:5055' }
     ]);
     return;
   }
 
-  // ── POST /app/login/ ───────────────────────────────────────────────────────
   if (path.includes('/login') && method === 'POST') {
     parseBody(req, body => {
       respond(res, 200, {
@@ -84,40 +79,22 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // ── POST /app/log/ ─────────────────────────────────────────────────────────
-  if (path.includes('/log') && method === 'POST') {
-    respond(res, 200, {});
-    return;
-  }
+  if (path.includes('/log') && method === 'POST') { respond(res, 200, {}); return; }
+  if (path.includes('/developer')) { respond(res, 200, { messages: [] }); return; }
+  if (path.includes('/product')) { respond(res, 200, []); return; }
+  if (path.includes('/tutorial')) { respond(res, 200, {}); return; }
+  if (path.includes('/session')) { respond(res, 200, {}); return; }
+  if (path.includes('/weapon')) { respond(res, 200, { success: true }); return; }
+  if (path.includes('/mission')) { respond(res, 200, { success: true }); return; }
+  if (path.includes('/leaderboard')) { respond(res, 200, []); return; }
+  if (path.includes('/purchase')) { respond(res, 200, { success: true }); return; }
+  if (path.includes('/user')) { respond(res, 200, {}); return; }
+  if (path.includes('/account')) { respond(res, 200, {}); return; }
 
-  // ── GET /app/developer/ ────────────────────────────────────────────────────
-  if (path.includes('/developer') && method === 'GET') {
-    respond(res, 200, { messages: [] });
-    return;
-  }
-
-  // ── GET /app/products/ ─────────────────────────────────────────────────────
-  if (path.includes('/product') && method === 'GET') {
-    respond(res, 200, []);
-    return;
-  }
-
-  // ── POST /app/tutorial/ ────────────────────────────────────────────────────
-  if (path.includes('/tutorial') && method === 'POST') {
-    respond(res, 200, {});
-    return;
-  }
-
-  // ── Catch-all: 404 ─────────────────────────────────────────────────────────
-  console.log('  → 404 Not Found');
+  console.log('  → 404 Not Found:', path);
   respond(res, 404, { error: 'Not found', path });
 });
 
 server.listen(PORT, () => {
-  console.log(`\n✅  Mock backend çalışıyor: http://localhost:${PORT}`);
-  console.log('   Endpoints:');
-  console.log('   POST /app/start/');
-  console.log('   GET  /app/servers/');
-  console.log('   POST /app/login/');
-  console.log('');
+  console.log(`\n✅  Mock backend running on port ${PORT}`);
 });
