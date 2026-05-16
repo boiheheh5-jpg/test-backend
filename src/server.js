@@ -43,69 +43,68 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // ── POST /api/v1/start ──────────────────────────────────────────────────────
-  // BackendManager.ApplicationStart() → StartRequest
-  if (path.includes('/start') && method === 'POST') {
+  // ── POST /app/start/ ───────────────────────────────────────────────────────
+  if (path === '/app/start/' && method === 'POST') {
     parseBody(req, body => {
       console.log('  StartRequest body:', body);
       respond(res, 200, {
         udid: body.udid && body.udid !== '-1' ? body.udid : 'mock-udid-' + Date.now(),
         deviceSessionToken: 'mock_device_token_' + Math.random().toString(36).slice(2),
         deviceSessionID: 1,
-        loginType: 'Guest',          // LoginType.Guest
+        account: 0,               // 0 = Guest (LoginType enum)
         assetBundleServerURLs: [],
-        tutorialStage: 'Completed',  // TutorialStage
-        config: {
-          // LaunchConfig — boş geçebilirsin, oyun default kullanır
-        }
+        hubAddress: '',
+        tutorialCompleted: 2,     // TutorialStage.Completed
+        config: {}
       });
     });
     return;
   }
 
-  // ── GET /api/v1/servers ─────────────────────────────────────────────────────
-  // BackendManager.OnRequestGetServerList() → GetServersRequest
-  if (path.includes('/servers') && method === 'GET') {
+  // ── GET /app/servers/ ──────────────────────────────────────────────────────
+  if (path.includes('/server') && method === 'GET') {
     respond(res, 200, [
-      {
-        id: 1,
-        name: 'EU',
-        addr: 'eu.ms.exitgames.com:5055'   // Photon Cloud EU Master Server
-      }
+      { id: 1, name: 'EU', addr: 'eu.ms.exitgames.com:5055' }
     ]);
     return;
   }
 
-  // ── POST /api/v1/login ──────────────────────────────────────────────────────
+  // ── POST /app/login/ ───────────────────────────────────────────────────────
   if (path.includes('/login') && method === 'POST') {
     parseBody(req, body => {
       respond(res, 200, {
         UserSessionToken: 'mock_user_token_' + Math.random().toString(36).slice(2),
         UserSessionID: 42,
         profile: {
-          BasicInfo: {
-            UserID: 1001,
-            Username: 'MockPlayer',
-            UserType: 0
-          },
-          Inventory: {
-            Currency: { Credits: 9999 }
-          }
+          BasicInfo: { UserID: 1001, Username: 'MockPlayer', UserType: 0 },
+          Inventory: { Currency: { Credits: 9999 } }
         }
       });
     });
     return;
   }
 
-  // ── POST /api/v1/log ────────────────────────────────────────────────────────
+  // ── POST /app/log/ ─────────────────────────────────────────────────────────
   if (path.includes('/log') && method === 'POST') {
     respond(res, 200, {});
     return;
   }
 
-  // ── GET /api/v1/developer-messages ─────────────────────────────────────────
+  // ── GET /app/developer/ ────────────────────────────────────────────────────
   if (path.includes('/developer') && method === 'GET') {
     respond(res, 200, { messages: [] });
+    return;
+  }
+
+  // ── GET /app/products/ ─────────────────────────────────────────────────────
+  if (path.includes('/product') && method === 'GET') {
+    respond(res, 200, []);
+    return;
+  }
+
+  // ── POST /app/tutorial/ ────────────────────────────────────────────────────
+  if (path.includes('/tutorial') && method === 'POST') {
+    respond(res, 200, {});
     return;
   }
 
@@ -117,8 +116,8 @@ const server = http.createServer((req, res) => {
 server.listen(PORT, () => {
   console.log(`\n✅  Mock backend çalışıyor: http://localhost:${PORT}`);
   console.log('   Endpoints:');
-  console.log('   POST /api/v1/start');
-  console.log('   GET  /api/v1/servers');
-  console.log('   POST /api/v1/login');
+  console.log('   POST /app/start/');
+  console.log('   GET  /app/servers/');
+  console.log('   POST /app/login/');
   console.log('');
 });
